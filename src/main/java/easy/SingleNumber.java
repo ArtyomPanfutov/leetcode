@@ -26,6 +26,9 @@ public class SingleNumber {
 
     /**
      * And there is more efficient solution with bit manipulation
+     * Time complexity : O(n)O(n). We only iterate through \text{nums}nums, so the time complexity is the number of elements in \text{nums}nums.
+     *
+     * Space complexity : O(1)O(1).
      */
     public int singleNumberBitManipulationApproach(int[] nums) {
         int a = 0;
