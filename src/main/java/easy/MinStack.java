@@ -17,7 +17,6 @@ public class MinStack {
 
     /** initialize your data structure here. */
     public MinStack() {
-
     }
 
     public void push(int x) {
