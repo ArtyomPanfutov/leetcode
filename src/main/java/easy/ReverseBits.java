@@ -20,7 +20,7 @@ public class ReverseBits {
 
         while (n != 0) {
             retVal += (n & 1) << power;
-            n = n >> 1;
+            n = n >>> 1;
             power--;
         }
         return retVal;
