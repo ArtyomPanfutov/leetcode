@@ -1,6 +1,6 @@
 package easy;
 
-import util.ListNode;
+import datastructures.ListNode;
 
 /**
  * 141. Linked List Cycle

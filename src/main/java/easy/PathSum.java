@@ -8,7 +8,7 @@ package easy;
  */
 
 
-import util.TreeNode;
+import datastructures.TreeNode;
 
 /**
  * Definition for a binary tree node.

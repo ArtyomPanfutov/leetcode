@@ -1,4 +1,4 @@
-package util;
+package datastructures;
 
 /**
  * Definition for a binary tree node.
