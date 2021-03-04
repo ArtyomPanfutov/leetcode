@@ -2,6 +2,9 @@ package easy;
 
 import datastructures.TreeNode;
 
+import java.util.ArrayDeque;
+import java.util.Deque;
+
 /**
  * 108. Convert Sorted Array to Binary Search Tree
  * Given an integer array nums where the elements are sorted in ascending order, convert it to a height-balanced binary search tree.
@@ -42,5 +45,51 @@ public class ConvertSortedArrayToBinarySearchTree {
         node.right = convert(mid + 1, end, nums);
 
         return node;
+    }
+
+    /**
+     * Iterative solution with 3 stacks
+     */
+    public TreeNode sortedArrayToBSTIterative(int[] nums) {
+        if (nums.length == 0) return null;
+
+        Deque<TreeNode> stack = new ArrayDeque<>();
+
+        TreeNode head = new TreeNode();
+        stack.push(head);
+
+        Deque<Integer> leftRange = new ArrayDeque<>();
+        leftRange.push(0);
+
+        Deque<Integer> rightRange = new ArrayDeque<>();
+        rightRange.push(nums.length - 1);
+
+        while (!stack.isEmpty()) {
+            TreeNode node = stack.pop();
+
+            int left = leftRange.pop();
+            int right = rightRange.pop();
+
+            int mid = left + (right - left) / 2;
+            node.val = nums[mid];
+
+            if (left < mid) {
+                node.left = new TreeNode();
+                stack.push(node.left);
+
+                leftRange.push(left);
+                rightRange.push(mid - 1);
+            }
+
+            if (right > mid) {
+                node.right = new TreeNode();
+                stack.push(node.right);
+
+                leftRange.push(mid + 1);
+                rightRange.push(right);
+            }
+        }
+
+        return head;
     }
 }
