@@ -28,6 +28,25 @@ package easy;
  * Output: -100000
  */
 public class MaximumSubarray {
+
+    /**
+     * O(n) solution
+     */
+    public int maxSubArrayLin(int[] nums) {
+        int max = nums[0];
+        int current = nums[0];
+
+        for (int i = 1; i < nums.length; i++) {
+            current = Math.max(nums[i], current + nums[i]);
+            max = Math.max(max, current);
+        }
+
+        return max;
+    }
+
+    /**
+     * Divide and conquer approach
+     */
     public int maxSubArray(int[] nums) {
         return solve(nums, 0, nums.length - 1);
     }
