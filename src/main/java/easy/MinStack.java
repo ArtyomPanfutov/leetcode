@@ -1,6 +1,7 @@
 package easy;
 
-import java.util.Stack;
+import java.util.ArrayDeque;
+import java.util.Deque;
 
 /**
  * 155. Min Stack
@@ -12,17 +13,16 @@ import java.util.Stack;
  * getMin() -- Retrieve the minimum element in the stack.
  */
 public class MinStack {
-    Stack<Integer> stack = new Stack<>();
-    Stack<Integer> minStack = new Stack<>();
+    Deque<Integer> stack = new ArrayDeque<>();
+    Deque<Integer> minStack = new ArrayDeque<>();
 
     /** initialize your data structure here. */
-    public MinStack() {
-    }
+    public MinStack() {}
 
     public void push(int x) {
         stack.push(x);
 
-        if (minStack.empty() || x <= minStack.peek()) {
+        if (minStack.isEmpty() || x <= minStack.peek()) {
             minStack.push(x);
         } else {
             minStack.push(minStack.peek());
@@ -30,8 +30,8 @@ public class MinStack {
     }
 
     public void pop() {
-        minStack.pop();
         stack.pop();
+        minStack.pop();
     }
 
     public int top() {
