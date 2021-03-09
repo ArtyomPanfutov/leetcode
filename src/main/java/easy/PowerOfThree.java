@@ -34,6 +34,9 @@ package easy;
  * Follow up: Could you solve it without loops/recursion?
  */
 public class PowerOfThree {
+    /**
+     * Brute force
+     */
     public boolean isPowerOfThreeNaive(int n) {
         int i = 0;
         double temp = 0;
@@ -49,6 +52,7 @@ public class PowerOfThree {
 
     /**
      * Loop, but still on optimal
+     * Time complexity log b (n)
      */
     public boolean isPowerOfThreeLoop(int n) {
         if (n < 1) return false;
