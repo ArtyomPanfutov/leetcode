@@ -61,16 +61,13 @@ public class RomanToInteger {
         map.put('M',             1000);
 
         int retVal = 0;
-        char prev = 'I';
+        int prev = 0;
         for (int i = s.length() - 1; i >= 0; i--) {
-            char current = s.charAt(i);
-
-            if ((current == 'I' && (prev == 'V' || prev == 'X')) ||
-                    (current == 'X' && (prev == 'L' || prev == 'C') ||
-                            (current == 'C' && (prev == 'D' || prev == 'M')))){
-                retVal -= map.get(current);
+            int current = map.get(s.charAt(i));
+            if (current < prev) {
+                retVal -= current;
             } else {
-                retVal += map.get(current);
+                retVal += current;
             }
 
             prev = current;
