@@ -8,7 +8,7 @@ package easy;
  *
  * You may assume all the characters consist of printable ascii characters.
  */
-public class reverseString {
+public class ReverseString {
     public void reverseString(char[] s) {
         int i = 0;
         int j = s.length - 1;
