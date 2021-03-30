@@ -1,0 +1,82 @@
+package medium;
+
+import java.util.*;
+
+/**
+ * 207. Course Schedule
+ *
+ * There are a total of numCourses courses you have to take, labeled from 0 to numCourses - 1. You are given an array prerequisites where prerequisites[i] = [ai, bi] indicates that you must take course bi first if you want to take course ai.
+ *
+ * For example, the pair [0, 1], indicates that to take course 0 you have to first take course 1.
+ * Return true if you can finish all courses. Otherwise, return false.
+ *
+ *
+ *
+ * Example 1:
+ *
+ * Input: numCourses = 2, prerequisites = [[1,0]]
+ * Output: true
+ * Explanation: There are a total of 2 courses to take.
+ * To take course 1 you should have finished course 0. So it is possible.
+ * Example 2:
+ *
+ * Input: numCourses = 2, prerequisites = [[1,0],[0,1]]
+ * Output: false
+ * Explanation: There are a total of 2 courses to take.
+ * To take course 1 you should have finished course 0, and to take course 0 you should also have finished course 1. So it is impossible.
+ *
+ *
+ * Constraints:
+ *
+ * 1 <= numCourses <= 105
+ * 0 <= prerequisites.length <= 5000
+ * prerequisites[i].length == 2
+ * 0 <= ai, bi < numCourses
+ * All the pairs prerequisites[i] are unique.
+ */
+public class CourseSchedule {
+    /**
+     * Time complexity O(n + p) where n is the number of courses and p is the number of prerequisites
+     * Space complexity O(n + p)
+     */
+    private static class RecursiveDfs {
+        public boolean canFinish(int numCourses, int[][] prerequisites) {
+            Map<Integer, List<Integer>> map = new HashMap<>();
+
+            for (int[] prerequisite : prerequisites) {
+                List<Integer> list;
+                if (map.get(prerequisite[0]) == null) {
+                    list = new ArrayList<>();
+                } else {
+                    list = map.get(prerequisite[0]);
+                }
+
+                list.add(prerequisite[1]);
+
+                map.put(prerequisite[0], list);
+            }
+
+            Set<Integer> visited = new HashSet<>();
+            for (int course : map.keySet()) {
+                if (!dfs(course, visited, map)) return false;
+            }
+
+            return true;
+        }
+
+        private boolean dfs(int course, Set<Integer> visited, Map<Integer, List<Integer>> map) {
+            if (visited.contains(course)) return false;
+            if (map.get(course) == null || map.get(course).isEmpty()) return true;
+
+            visited.add(course);
+            for (int j : map.get(course)) {
+                if (!dfs(j, visited, map)) return false;
+
+                visited.remove(course);
+            }
+            map.put(course, Collections.emptyList());
+            return true;
+
+        }
+    }
+}
