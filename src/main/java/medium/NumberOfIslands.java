@@ -39,12 +39,12 @@ package medium;
 public class NumberOfIslands {
 
     /**
-     * Time complexity O(n + p)
+     * Time complexity O(n * p)
      * Space complexity O(4 * p) cause of recursion
      * p - number of 1
      * n - matrix length
      */
-    private static class RecursiveDfsSolution {
+    private static class RecursiveBfsSolution {
         public int numIslands(char[][] grid) {
             int count = 0;
 
@@ -52,7 +52,7 @@ public class NumberOfIslands {
                 for (int j = 0; j < grid[i].length; j++) {
                     if (grid[i][j] == '1') {
                         count++;
-                        dfs(grid, i, j);
+                        bfs(grid, i, j);
                     }
                 }
             }
@@ -60,17 +60,17 @@ public class NumberOfIslands {
             return count;
         }
 
-        private void dfs(char[][] grid, int i, int j) {
+        private void bfs(char[][] grid, int i, int j) {
             if (i < 0 || i >= grid.length || j < 0 || j >= grid[i].length || grid[i][j] == '0') {
                 return;
             }
 
             grid[i][j] = '0';
 
-            dfs(grid, i - 1, j); // up
-            dfs(grid, i + 1, j); // down
-            dfs(grid, i, j - 1); // left
-            dfs(grid, i, j + 1); // right
+            bfs(grid, i - 1, j); // up
+            bfs(grid, i + 1, j); // down
+            bfs(grid, i, j - 1); // left
+            bfs(grid, i, j + 1); // right
         }
     }
 }
