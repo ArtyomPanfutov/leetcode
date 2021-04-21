@@ -53,46 +53,36 @@ import java.util.*;
  */
 public class OpenTheLock {
     public int openLock(String[] deadends, String target) {
-        Set<String> deadEnds = new HashSet<>(Arrays.asList(deadends));
+        Set<String> dead = new HashSet<>(Arrays.asList(deadends));
+
         Queue<String> queue = new LinkedList<>();
-        queue.add("0000");
+        queue.offer("0000");
+        queue.offer(null);
 
-        Set<String> visited = new HashSet<>();
+        Set<String> seen = new HashSet();
+        seen.add("0000");
 
-        int level = 0;
-        while(!queue.isEmpty()) {
-            int size = queue.size();
-            while (size > 0) {
-                size--;
-                String node = queue.poll();
-                visited.add(node);
-                if (deadEnds.contains(node)) {
-                    continue;
-                }
-
-                if (node.equals(target)) {
-                    return level;
-                }
-
-                StringBuilder sb = new StringBuilder(node);
-                for (int i = 0; i < 4; i++) {
-                    char current = sb.charAt(i);
-                    String s1 = sb.substring(0, i) + (current == '9' ? '0' : current - '0' + 1) + sb.substring(i + 1);
-                    String s2 = sb.substring(0, i) + (current == '0' ? '9' : current - '0' - 1) + sb.substring(i + 1);
-
-                    if (!deadEnds.contains(s1) && !visited.contains(s1)) {
-                        queue.add(s1);
-                    }
-
-                    if (!deadEnds.contains(s2) && !visited.contains(s2)) {
-                        queue.add(s2);
+        int depth = 0;
+        while (!queue.isEmpty()) {
+            String node = queue.poll();
+            if (node == null) {
+                depth++;
+                if (queue.peek() != null)
+                    queue.offer(null);
+            } else if (node.equals(target)) {
+                return depth;
+            } else if (!dead.contains(node)) {
+                for (int i = 0; i < 4; ++i) {
+                    for (int d = -1; d <= 1; d += 2) {
+                        int y = ((node.charAt(i) - '0') + d + 10) % 10;
+                        String nei = node.substring(0, i) + ("" + y) + node.substring(i+1);
+                        if (!seen.contains(nei)) {
+                            seen.add(nei);
+                            queue.offer(nei);
+                        }
                     }
                 }
-
             }
-            level++;
         }
-
         return -1;
-    }
-}
+    }}
