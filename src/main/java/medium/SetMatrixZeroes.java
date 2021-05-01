@@ -61,4 +61,51 @@ public class SetMatrixZeroes {
             }
         }
     }
+
+    /**
+     * Time complexity: O(m*n)
+     * Space complexity: O(1)
+     *
+     * We mark the first column and the first row to set them to zero
+     */
+    private static final class ConstantSpaceSolution {
+        public void setZeroes(int[][] matrix) {
+            boolean firstColToZero = false;
+
+            for (int i = 0; i < matrix.length; i++) {
+                if (matrix[i][0] == 0) {
+                    firstColToZero = true;
+                }
+
+                for (int j = 1; j < matrix[0].length; j++) {
+                    if (matrix[i][j] == 0) {
+                        matrix[0][j] = 0;
+                        matrix[i][0] = 0;
+                    }
+                }
+            }
+            // Set to zero except the first row and  the first column
+            for (int i = 1; i < matrix.length; i++) {
+                for (int j = 1; j < matrix[0].length; j++) {
+                    if (matrix[i][0] == 0 || matrix[0][j] == 0) {
+                        matrix[i][j] = 0;
+                    }
+                }
+            }
+
+            // If the first row needs to be set to zero
+            if (matrix[0][0] == 0) {
+                for (int j = 0; j < matrix[0].length; j++) {
+                    matrix[0][j] = 0;
+                }
+            }
+
+            // If the first column needs to bes to zero too
+            if (firstColToZero) {
+                for (int i = 0; i < matrix.length; i++) {
+                    matrix[i][0] = 0;
+                }
+            }
+        }
+    }
 }
