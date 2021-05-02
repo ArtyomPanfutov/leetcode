@@ -34,32 +34,39 @@ public class RotateImage {
      * Another solution using transposing and reflecting
      */
     private static final class TransposeAndReflect {
-        public void rotateByTransposeAndReflect(int[][] matrix) {
+        public void rotate(int[][] matrix) {
             transpose(matrix);
             reflect(matrix);
         }
 
         private void transpose(int[][] matrix) {
-            int n = matrix.length;
-            for (int i = 0; i < n; i++) {
-                for (int j = i; j < n; j++) {
-                    int temp = matrix[j][i];
-                    matrix[j][i] = matrix[i][j];
-                    matrix[i][j] = temp;
+            for (int i = 0; i < matrix.length; i++) {
+                for (int j = i; j < matrix.length; j++) {
+                    int temp = matrix[i][j];
+
+                    matrix[i][j] = matrix[j][i];
+                    matrix[j][i] = temp;
                 }
             }
         }
 
         private void reflect(int[][] matrix) {
-            int n = matrix.length;
-            for (int i = 0; i < n; i++) {
-                for (int j = 0; j < n / 2; j++) {
-                    int temp = matrix[i][j];
-                    matrix[i][j] = matrix[i][n - j - 1];
-                    matrix[i][n - j - 1] = temp;
-                }
+            for (int i = 0; i < matrix.length; i++) {
+                reflectRow(i, matrix);
             }
         }
-    }
+
+        private void reflectRow(int row, int[][] matrix) {
+            int i = 0;
+            int j = matrix.length - 1;
+
+            while (i < j) {
+                int temp = matrix[row][i];
+                matrix[row][i] = matrix[row][j];
+                matrix[row][j] = temp;
+
+                i++; j--;
+            }
+        }    }
 }
 
