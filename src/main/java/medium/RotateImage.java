@@ -8,22 +8,24 @@ package medium;
  */
 public class RotateImage {
 
-    /**
-     * Let MM be the number of cells in the matrix.
-     *
-     * Time complexity : \mathcal{O}(M)O(M), as each cell is getting read once and written once.
-     *
-     * Space complexity : \mathcal{O}(1)O(1) because we do not use any other additional data structures.
-     */
-    public void rotate(int[][] matrix) {
-        int n = matrix.length;
-        for (int i = 0; i < (n + 1) / 2; i++) {
-            for (int j = 0; j < n / 2; j++) {
-                int temp = matrix[n - 1 - j][i];
-                matrix[n - 1 - j][i] = matrix[n - 1 - i][n - j - 1];
-                matrix[n - 1 - i][n - j - 1] = matrix[j][n - 1 - i];
-                matrix[j][n - 1 - i] = matrix[i][j];
-                matrix[i][j] = temp;
+    private static final class StraightForward {
+        /**
+         * Let MM be the number of cells in the matrix.
+         *
+         * Time complexity : \mathcal{O}(M)O(M), as each cell is getting read once and written once.
+         *
+         * Space complexity : \mathcal{O}(1)O(1) because we do not use any other additional data structures.
+         */
+        public void rotate(int[][] matrix) {
+            int n = matrix.length;
+            for (int i = 0; i < (n + 1) / 2; i++) {
+                for (int j = 0; j < n / 2; j++) {
+                    int temp = matrix[n - 1 - j][i];
+                    matrix[n - 1 - j][i] = matrix[n - 1 - i][n - j - 1];
+                    matrix[n - 1 - i][n - j - 1] = matrix[j][n - 1 - i];
+                    matrix[j][n - 1 - i] = matrix[i][j];
+                    matrix[i][j] = temp;
+                }
             }
         }
     }
@@ -31,30 +33,33 @@ public class RotateImage {
     /**
      * Another solution using transposing and reflecting
      */
-    public void rotateByTransposeAndReflect(int[][] matrix) {
-        transpose(matrix);
-        reflect(matrix);
-    }
+    private static final class TransposeAndReflect {
+        public void rotateByTransposeAndReflect(int[][] matrix) {
+            transpose(matrix);
+            reflect(matrix);
+        }
 
-    private void transpose(int[][] matrix) {
-        int n = matrix.length;
-        for (int i = 0; i < n; i++) {
-            for (int j = i; j < n; j++) {
-                int temp = matrix[j][i];
-                matrix[j][i] = matrix[i][j];
-                matrix[i][j] = temp;
+        private void transpose(int[][] matrix) {
+            int n = matrix.length;
+            for (int i = 0; i < n; i++) {
+                for (int j = i; j < n; j++) {
+                    int temp = matrix[j][i];
+                    matrix[j][i] = matrix[i][j];
+                    matrix[i][j] = temp;
+                }
             }
         }
-    }
 
-    private void reflect(int[][] matrix) {
-        int n = matrix.length;
-        for (int i = 0; i < n; i++) {
-            for (int j = 0; j < n / 2; j++) {
-                int temp = matrix[i][j];
-                matrix[i][j] = matrix[i][n - j - 1];
-                matrix[i][n - j - 1] = temp;
+        private void reflect(int[][] matrix) {
+            int n = matrix.length;
+            for (int i = 0; i < n; i++) {
+                for (int j = 0; j < n / 2; j++) {
+                    int temp = matrix[i][j];
+                    matrix[i][j] = matrix[i][n - j - 1];
+                    matrix[i][n - j - 1] = temp;
+                }
             }
         }
     }
 }
+
