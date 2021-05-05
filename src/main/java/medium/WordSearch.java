@@ -54,8 +54,6 @@ public class WordSearch {
 
     private boolean check(char[][] board, String word, int wordIndex, int x, int y, boolean[][] visited) {
         if (word.charAt(wordIndex) == board[x][y]) {
-
-            int rowLength = board[0].length;
             visited[x][y] = true;
 
             if (wordIndex == word.length() - 1) {
