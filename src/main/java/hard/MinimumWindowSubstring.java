@@ -31,7 +31,7 @@ import java.util.Map;
  */
 public class MinimumWindowSubstring {
     public String minWindow(String s, String t) {
-        Map<Character, Integer> tMap = new HashMap<Character, Integer>();
+        Map<Character, Integer> tMap = new HashMap<>();
 
         for (char ch : t.toCharArray()) {
             tMap.put(ch, tMap.getOrDefault(ch, 0) + 1);
