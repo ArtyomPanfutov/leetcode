@@ -39,42 +39,59 @@ import java.util.Deque;
  */
 public class MaximumDepthOfBinaryTree {
     /**
-     * Here the solution with two stacks
-     * The first one is for storing nodes to explore later
-     * The second is for current path
-     *
-     * If on top of these stack equal nodes then it means we traversed everything below
-     * (Space complexity in worst case O(n) but on balanced trees it would be log(n)
+     * Time complexity: O(n)
+     * Space complexity: O(n)
      */
-    public int maxDepth(TreeNode root) {
-        if (root == null) return 0;
+    public static final class RecursiveSolution {
+        public int maxDepth(TreeNode root) {
+            if (root == null) return 0;
+            return Math.max(maxDepth(root.left) + 1, maxDepth(root.right) + 1);
+        }
+    }
 
-        int max = 0;
-        Deque<TreeNode> wq = new ArrayDeque<>();
-        Deque<TreeNode> path = new ArrayDeque<>();
+    /**
+     * Time complexity: O(n)
+     * Space complexity: O(n)
+     */
+    public static final class StackSolution {
+        /**
+         * Here the solution with two stacks
+         * The first one is for storing nodes to explore later
+         * The second is for current path
+         * <p>
+         * If on top of these stack equal nodes then it means we traversed everything below
+         * (Space complexity in worst case O(n) but on balanced trees it would be log(n)
+         */
+        public int maxDepth(TreeNode root) {
+            if (root == null) return 0;
 
-        wq.push(root);
+            int max = 0;
+            Deque<TreeNode> wq = new ArrayDeque<>();
+            Deque<TreeNode> path = new ArrayDeque<>();
 
-        while (!wq.isEmpty()) {
-            root = wq.peek();
+            wq.push(root);
 
-            if (!path.isEmpty() && root == path.peek()) {
-                max = Math.max(max, path.size());
+            while (!wq.isEmpty()) {
+                root = wq.peek();
 
-                wq.pop();
-                path.pop();
-            } else {
-                path.push(root);
+                if (!path.isEmpty() && root == path.peek()) {
+                    max = Math.max(max, path.size());
 
-                if (root.left != null) {
-                    wq.push(root.left);
-                }
+                    wq.pop();
+                    path.pop();
+                } else {
+                    path.push(root);
 
-                if (root.right != null) {
-                    wq.push(root.right);
+                    if (root.left != null) {
+                        wq.push(root.left);
+                    }
+
+                    if (root.right != null) {
+                        wq.push(root.right);
+                    }
                 }
             }
+            return max;
         }
-        return max;
     }
 }
