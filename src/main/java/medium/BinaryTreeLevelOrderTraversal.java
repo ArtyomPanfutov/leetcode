@@ -35,36 +35,36 @@ public class BinaryTreeLevelOrderTraversal {
      * time and space complexity O(n)
      */
     public List<List<Integer>> levelOrder(TreeNode root) {
-        if (root == null) return Collections.emptyList();
+            if (root == null) return Collections.emptyList();
 
-        List<List<Integer>> result = new ArrayList<>();
-        result.add(Collections.singletonList(root.val));
+            List<List<Integer>> result = new ArrayList<>();
 
-        Queue<TreeNode> q = new LinkedList<>();
-        q.add(root);
+            Queue<TreeNode> queue = new LinkedList<>();
+            queue.add(root);
 
-        while (!q.isEmpty()) {
-            List<Integer> level = new ArrayList<>();
-            final int size = q.size();
-            for (int i = 0; i < size; i++) {
-                TreeNode node = q.poll();
+            while (!queue.isEmpty()) {
+                List<Integer> level = new ArrayList<>();
+                final int size = queue.size();
 
-                if (node.left != null) {
-                    level.add(node.left.val);
-                    q.add(node.left);
+                for (int i = 0; i < size; i++) {
+                    root = queue.poll();
+
+                    level.add(root.val);
+
+                    if (root.left != null) {
+                        queue.add(root.left);
+                    }
+
+                    if (root.right != null) {
+                        queue.add(root.right);
+                    }
                 }
 
-                if (node.right != null) {
-                    level.add(node.right.val);
-                    q.add(node.right);
+                if (level.size() > 0) {
+                    result.add(level);
                 }
             }
 
-            if (level.size() > 0) {
-                result.add(level);
-            }
+            return result;
         }
-
-        return result;
-    }
 }
