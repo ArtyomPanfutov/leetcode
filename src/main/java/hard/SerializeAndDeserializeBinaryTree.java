@@ -80,7 +80,7 @@ public class SerializeAndDeserializeBinaryTree {
 
     // Decodes your encoded data to tree.
     public TreeNode deserialize(String data) {
-        String[] nodes = data.split(",");
+        String[] nodes = data.split(DELIMITER);
 
         if (nodes.length == 0 || nodes[0].equals("$")) {
             return null;
