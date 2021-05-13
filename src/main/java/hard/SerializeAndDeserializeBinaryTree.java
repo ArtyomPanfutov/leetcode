@@ -43,7 +43,7 @@ import java.util.Queue;
 public class SerializeAndDeserializeBinaryTree {
     /**
      * Pretty straight forward solution
-     * Saving into string every node with a comma as a delimiter
+     * Constructs a string with node values with a comma as a delimiter
      *
      * Time complexity: O(n)
      * Space complexity: O(n)
