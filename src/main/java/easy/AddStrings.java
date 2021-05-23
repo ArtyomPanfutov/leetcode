@@ -31,8 +31,8 @@ package easy;
  */
 public class AddStrings {
     /**
-     * Time complexity O(M+N)
-     * Space complexity O(M+N)
+     * Time complexity O(max(M,N))
+     * Space complexity O(max(M,N) + 1)
      */
     public String addStrings(String num1, String num2) {
         int i = num1.length() - 1;
