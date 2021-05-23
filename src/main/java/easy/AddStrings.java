@@ -30,6 +30,10 @@ package easy;
  * num1 and num2 don't have any leading zeros except for the zero itself.
  */
 public class AddStrings {
+    /**
+     * Time complexity O(M+N)
+     * Space complexity O(M+N)
+     */
     public String addStrings(String num1, String num2) {
         int i = num1.length() - 1;
         int j = num2.length() - 1;
