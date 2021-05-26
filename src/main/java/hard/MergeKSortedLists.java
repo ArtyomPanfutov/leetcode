@@ -2,9 +2,7 @@ package hard;
 
 import datastructures.ListNode;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 /**
  *23. Merge k Sorted Lists
@@ -74,6 +72,35 @@ public class MergeKSortedLists {
                 list.add(node.val);
                 node = node.next;
             }
+        }
+    }
+
+    /**
+     * Priority queue solution
+     * Time complexity: O(Nlog(K))
+     * Space complexity: O(N)
+     */
+    public static final class PriorityQueueSolution {
+        public ListNode mergeKLists(ListNode[] lists) {
+            ListNode head = new ListNode();
+            ListNode point = head;
+
+            PriorityQueue<ListNode> queue = new PriorityQueue<>(Comparator.comparingInt(n -> n.val));
+
+            for (ListNode node : lists) {
+                while (node != null) {
+                    queue.add(node);
+                    node = node.next;
+                }
+            }
+
+            while (!queue.isEmpty()) {
+                ListNode node = queue.poll();
+                point.next = node;
+                point = point.next;
+            }
+            point.next = null;
+            return head.next;
         }
     }
 }
