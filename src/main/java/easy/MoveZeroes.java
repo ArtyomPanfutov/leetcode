@@ -16,17 +16,16 @@ package easy;
  */
 public class MoveZeroes {
     public void moveZeroes(int[] nums) {
-        int count = 0;
+        int lastNonZero = 0;
 
         for (int i = 0; i < nums.length; i++) {
             if (nums[i] != 0) {
-                nums[count] = nums[i];
-                count++;
-            }
-        }
+                int temp = nums[lastNonZero];
+                nums[lastNonZero] = nums[i];
+                nums[i] = temp;
 
-        while (count < nums.length) {
-            nums[count++] = 0;
+                lastNonZero++;
+            }
         }
     }
 }
