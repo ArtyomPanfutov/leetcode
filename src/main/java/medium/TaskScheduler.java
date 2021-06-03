@@ -78,6 +78,5 @@ public class TaskScheduler {
 
             return cycles;
         }
-
     }
 }
