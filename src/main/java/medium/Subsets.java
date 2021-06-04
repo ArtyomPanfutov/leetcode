@@ -32,31 +32,56 @@ public class Subsets {
      * Time complexity: O(N * 2^N)
      * Space complexity: O(N)
      */
-    public List<List<Integer>> subsets(int[] nums) {
-        List<List<Integer>> result = new ArrayList<>();
+    public static final class BacktrackingSolution {
+        public List<List<Integer>> subsets(int[] nums) {
+            List<List<Integer>> result = new ArrayList<>();
 
-        for (int k = 0; k < nums.length + 1; k++) {
-            backtrack(0, result, new ArrayList<>(), nums, k);
+            for (int k = 0; k < nums.length + 1; k++) {
+                backtrack(0, result, new ArrayList<>(), nums, k);
+            }
+
+            return result;
         }
 
-        return result;
+        private void backtrack(int first, List<List<Integer>> result, List<Integer> current, int[] nums, int k) {
+            if (current.size() == k) {
+                result.add(new ArrayList<>(current));
+                return;
+            }
+
+            for (int i = first; i < nums.length; i++) {
+                // add i to the current combination
+                current.add(nums[i]);
+
+                // use next integers to complete the combination
+                backtrack(i + 1, result, current, nums, k);
+
+                // backtrack
+                current.remove(current.size() - 1);
+            }
+        }
     }
 
-    private void backtrack(int first, List<List<Integer>> result, List<Integer> current, int[] nums, int k) {
-        if (current.size() == k) {
-            result.add(new ArrayList<>(current));
-            return;
-        }
+    /**
+     * Time complexity: O(N * 2^N)
+     * Space complexity: O(N * 2^N)
+     */
+    public static final class CascadingSolution {
+        public List<List<Integer>> subsets(int[] nums) {
+            List<List<Integer>> result = new ArrayList<>();
+            result.add(new ArrayList<>());
 
-        for (int i = first; i < nums.length; i++) {
-            // add i to the current combination
-            current.add(nums[i]);
+            for (int num : nums) {
+                List<List<Integer>> newSubsets = new ArrayList<>();
 
-            // use next integers to complete the combination
-            backtrack(i + 1, result, current, nums, k);
+                for (List<Integer> curr : result) {
+                    newSubsets.add(new ArrayList<Integer>(curr) {{ add(num); }});
+                }
 
-            // backtrack
-            current.remove(current.size() - 1);
+                result.addAll(newSubsets);
+            }
+
+            return result;
         }
     }
 }
