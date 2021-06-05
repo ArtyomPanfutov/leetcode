@@ -35,30 +35,31 @@ public class Subsets {
     public static final class BacktrackingSolution {
         public List<List<Integer>> subsets(int[] nums) {
             List<List<Integer>> result = new ArrayList<>();
+            result.add(new ArrayList<>());
 
-            for (int k = 0; k < nums.length + 1; k++) {
-                backtrack(0, result, new ArrayList<>(), nums, k);
-            }
+            subset(0, result, new ArrayList<>(), nums);
 
             return result;
         }
 
-        private void backtrack(int first, List<List<Integer>> result, List<Integer> current, int[] nums, int k) {
-            if (current.size() == k) {
-                result.add(new ArrayList<>(current));
+        private void subset(int offset, List<List<Integer>> result, List<Integer> current, int[] nums) {
+            if (nums.length <= offset) {
                 return;
             }
 
-            for (int i = first; i < nums.length; i++) {
-                // add i to the current combination
-                current.add(nums[i]);
+            int val = nums[offset];
 
-                // use next integers to complete the combination
-                backtrack(i + 1, result, current, nums, k);
+            // pick current
+            current.add(val);
 
-                // backtrack
-                current.remove(current.size() - 1);
-            }
+            subset(offset + 1, result, current, nums);
+
+            result.add(new ArrayList<>(current));
+
+            // not pick current
+            current.remove(current.size() - 1);
+
+            subset(offset + 1, result, current, nums);
         }
     }
 
