@@ -51,21 +51,28 @@ public class LetterCombinationsOfPhoneNumber {
     public List<String> letterCombinations(String digits) {
         List<String> result = new ArrayList<>();
 
-        fill(result, "", digits, 0);
+        if (digits.length() == 0) {
+            return result;
+        }
+
+        fill(result, new char[0], digits, 0);
 
         return result;
     }
 
-    private void fill(List<String> result, String current, String digits, int index) {
+    private void fill(List<String> result, char[] current, String digits, int index) {
         if (index == digits.length()) {
-            result.add(current);
+            result.add(new String(current));
             return;
         }
 
         char[] letters = map.get(digits.charAt(index) - '0');
 
-        for (int i = 0; i < letters.length; i++) {
-            fill(result, current + letters[i], digits, index + 1);
+        for (char letter : letters) {
+            char[] next = new char[current.length + 1];
+            System.arraycopy(current, 0, next, 0, current.length);
+            next[next.length - 1] = letter;
+            fill(result, next, digits, index + 1);
         }
     }
 }
