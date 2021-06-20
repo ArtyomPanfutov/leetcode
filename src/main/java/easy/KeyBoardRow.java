@@ -38,6 +38,10 @@ import java.util.Set;
  * words[i] consists of English letters (both lowercase and uppercase).
  */
 public class KeyBoardRow {
+    /**
+     * Time complexity: O(M) where M is the length of all words
+     * Space complexity: O(1)
+     */
     private static final String[] rows = new String[] {"qwertyuiop", "asdfghjkl", "zxcvbnm"};
 
     private static final Set<Character>[] rowSet;
@@ -65,6 +69,7 @@ public class KeyBoardRow {
                 ch = Character.toLowerCase(ch);
                 if (!rowSet[row].contains(ch)) {
                     allMatch = false;
+                    break;
                 }
             }
 
