@@ -32,4 +32,25 @@ package easy;
  * 0 <= n <= 30
  */
 public class FibonacciNumber {
+    public int fib(int n) {
+        if (n <= 1) {
+            return n;
+        }
+
+        if (n == 2) {
+            return 1;
+        }
+
+        int result = 0;
+        int a = 1;
+        int b = 1;
+
+        for (int i = 3; i <= n; i++) {
+            result = a + b;
+            b = a;
+            a = result;
+        }
+
+        return result;
+    }
 }
