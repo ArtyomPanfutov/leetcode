@@ -27,15 +27,19 @@ import java.util.Set;
  * s consist of printable ASCII characters.
  */
 public class ReverseVowelsOfAString {
-    // TODO NOT VERIFIED!
     private static final Set<Character> VOWELS = new HashSet<>();
 
     static {
         VOWELS.add('a');
+        VOWELS.add('A');
         VOWELS.add('e');
+        VOWELS.add('E');
         VOWELS.add('i');
+        VOWELS.add('I');
         VOWELS.add('o');
+        VOWELS.add('O');
         VOWELS.add('u');
+        VOWELS.add('U');
     }
 
     public String reverseVowels(String s) {
