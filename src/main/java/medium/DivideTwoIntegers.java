@@ -44,25 +44,24 @@ public class DivideTwoIntegers {
                 return Integer.MAX_VALUE;
             }
 
-            long dvd = Math.abs((long) dividend);
-            long dvs = Math.abs((long) divisor);
+            int a = Math.abs(dividend);
+            int b = Math.abs(divisor);
 
             int result = 0;
-            int sign = dividend > 0 ^ divisor > 0 ? -1 : 1;
 
-            while (dvd >= dvs) {
-                long temp = dvs;
-                long m = 1;
+            while (a - b >= 0) {
+                int currentDivisor = b;
+                int count = 1;
 
-                while (temp << 1 <= dvd) {
-                    temp <<= 1;
-                    m <<= 1;
+                while (a - (currentDivisor << 1) >= 0) {
+                    currentDivisor <<= 1;
+                    count <<= 1;
                 }
 
-                dvd -= temp;
-                result += m;
+                result += count;
+                a -= currentDivisor;
             }
-            return sign * result;
-        }
-    }
+
+            return (dividend > 0) ^ (divisor > 0) ? result * - 1 : result;
+        }    }
 }
