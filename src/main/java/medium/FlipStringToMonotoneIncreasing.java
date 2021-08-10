@@ -50,5 +50,4 @@ public class FlipStringToMonotoneIncreasing {
             return flip;
         }
     }
-    }
 }
