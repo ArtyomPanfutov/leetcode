@@ -34,18 +34,18 @@ public class PowXN {
                 return 1;
             }
 
-            int m = n;
+            final boolean negative = n < 0;
+
             double result = 1.0;
-            while (m != 0) {
-                if (m % 2 != 0) {
+            while (n != 0) {
+                if (n % 2 != 0) {
                     result *= x;
                 }
 
                 x *= x;
-                m /= 2;
+                n /= 2;
             }
 
-            return n < 0 ? 1 / result : result;
-        }
+            return negative ? 1 / result : result;        }
     }
 }
