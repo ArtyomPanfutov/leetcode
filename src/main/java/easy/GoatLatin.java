@@ -45,7 +45,7 @@ public class GoatLatin {
                 if (isVowel(Character.toLowerCase(word.charAt(0)))) {
                     sb.append(word).append("ma");
                 } else {
-                    sb.append(word.substring(1, word.length()))
+                    sb.append(word.substring(1))
                             .append(word.charAt(0))
                             .append("ma");
                 }

@@ -59,8 +59,6 @@ public class DecodeWays {
         for (int i = 2; i <= s.length(); i++) {
             int a = Integer.parseInt(s.substring(i - 1, i));
             int b = Integer.parseInt(s.substring(i - 2, i));
-            System.out.println(a);
-            System.out.println(b);
             if (a >= 1 && a <= 9) {
                 dp[i] += dp[i - 1];
             }
