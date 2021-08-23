@@ -21,6 +21,10 @@ package medium;
  * 1 <= n <= 20
  */
 public class SpiralMatrixII {
+    /**
+     * Time complexity: O(n^2)
+     * Space complexity: O(1)
+     */
     static class Solution {
         public int[][] generateMatrix(int n) {
             int[][] result = new int[n][n];
