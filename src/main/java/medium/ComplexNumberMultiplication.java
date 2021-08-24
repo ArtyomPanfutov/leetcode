@@ -42,5 +42,4 @@ public class ComplexNumberMultiplication {
             return (realNum1 * realNum2 -imaginaryNum1 * imaginaryNum2) + "+" + (imaginaryNum1 * realNum2 + realNum1 * imaginaryNum2) + "i";
         }
     }
-    }
 }
