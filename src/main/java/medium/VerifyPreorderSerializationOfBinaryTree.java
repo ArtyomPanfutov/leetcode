@@ -45,6 +45,10 @@ import java.util.Deque;
  * preoder consist of integers in the range [0, 100] and '#' separated by commas ','.
  */
 public class VerifyPreorderSerializationOfBinaryTree {
+    /**
+     * Time complexity: O(n)
+     * Space complexity: O(h) - height of a tree
+     */
     static class Solution {
         public boolean isValidSerialization(String preorder) {
             String[] nodes = preorder.split(",");
