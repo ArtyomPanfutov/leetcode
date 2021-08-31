@@ -53,40 +53,44 @@ public class PathWithMaximumProbability {
         public double maxProbability(int n, int[][] edges, double[] succProb, int start, int end) {
             final Map<Integer, List<int[]>> graph = new HashMap<>();
 
-            for (int i = 0; i < edges.length; i++)  {
+            for (int i = 0; i < edges.length; i++) {
                 final int a = edges[i][0];
                 final int b = edges[i][1];
 
-                graph.computeIfAbsent(a, x -> new ArrayList<>()).add(new int[]{b, i});
-                graph.computeIfAbsent(b, x -> new ArrayList<>()).add(new int[]{a, i});
+                final List<int[]> edgeToB = graph.computeIfAbsent(a, x -> new ArrayList<>());
+                edgeToB.add(new int[]{b, i});
+
+                final List<int[]> edgeToA = graph.computeIfAbsent(b, x -> new ArrayList<>());
+                edgeToA.add(new int[]{a, i});
             }
 
-            final double[] probabilities = new double[n];
-            probabilities[start] = 1;
+            final double[] odds = new double[n];
+            odds[start] = 1;
 
             final Queue<Integer> queue = new PriorityQueue<>(
-                    Comparator.comparingDouble((Integer i) -> probabilities[i]).reversed());
+                    Comparator.comparingDouble((Integer index) -> odds[index]).reversed()
+            );
 
             queue.add(start);
-            while (!queue.isEmpty()) {
+            while(!queue.isEmpty()) {
                 final int current = queue.poll();
 
                 if (current == end) {
-                    return probabilities[end];
+                    return odds[end];
                 }
 
-                for (int[] neighbor : graph.getOrDefault(current, Collections.emptyList())) {
+                final List<int[]> neighbors = graph.getOrDefault(current, Collections.emptyList());
+                for (int[] neighbor : neighbors) {
                     final int node = neighbor[0];
                     final int index = neighbor[1];
 
-                    if (probabilities[current] * succProb[index] > probabilities[node]) {
-                        probabilities[node] = probabilities[current] * succProb[index];
+                    if (odds[current] * succProb[index] > odds[node]) {
+                        odds[node] = odds[current] * succProb[index];
                         queue.add(node);
                     }
                 }
             }
 
-            return 0d;
-        }
+            return 0.0;        }
     }
 }
