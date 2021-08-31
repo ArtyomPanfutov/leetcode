@@ -39,26 +39,31 @@ package medium;
  */
 public class FindMinimumInRotatedSortedArray {
     public int findMin(int[] nums) {
-        if (nums[nums.length - 1] > nums[0]) {
+        if (nums[0] <= nums[nums.length - 1]) {
             return nums[0];
         }
 
-        int start = 0;
-        int end = nums.length - 1;
-        int min = nums[0];
+        int left = 0;
+        int right = nums.length - 1;
 
-        while (start <= end) {
-            int mid = start + (end - start) / 2;
+        while (left <= right) {
+            int mid = left + (right - left) / 2;
 
-            if (nums[mid] < nums[end]) {
-                min = nums[mid];
-                end = mid;
+            if (nums[mid] > nums[mid + 1]) {
+                return nums[mid + 1];
+            }
+
+            if (nums[mid - 1] > nums[mid]) {
+                return nums[mid];
+            }
+
+            if (nums[mid] > nums[0]) {
+                left = mid + 1;
             } else {
-                min = nums[mid];
-                start = mid + 1;
+                right = mid - 1;
             }
         }
 
-        return min;
+        return nums[nums.length - 1];
     }
 }
