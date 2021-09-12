@@ -41,8 +41,8 @@ public class ReverseLinkedListII {
             right--;
         }
 
-        final ListNode leftBreak = prev;
-        final ListNode rightBreak = node;
+        final ListNode beforeStartReverse = prev;
+        final ListNode startReverse = node;
 
         while (right > 0) {
             ListNode temp = node.next;
@@ -52,14 +52,13 @@ public class ReverseLinkedListII {
             right--;
         }
 
-        if (leftBreak != null) {
-            leftBreak.next = prev;
+        if (beforeStartReverse != null) {
+            beforeStartReverse.next = prev;
         } else {
             head = prev;
         }
 
-        rightBreak.next = node;
-
+        startReverse.next = node;
         return head;
     }
 }
