@@ -1,6 +1,7 @@
 package medium;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -34,39 +35,33 @@ public class SpiralMatrix {
         private static final int[] COL_DIRECTIONS = {1, 0, -1, 0};
 
         public List<Integer> spiralOrder(int[][] matrix) {
-            List<Integer> result = new ArrayList<>();
-
             if (matrix.length == 0) {
-                return result;
+                return Collections.emptyList();
             }
+            final List<Integer> result = new ArrayList<>();
+            final boolean[][] visited = new boolean[matrix.length][matrix[0].length];
 
-            boolean[][] visited = new boolean[matrix.length][matrix[0].length];
-            int row = 0;
-            int col = 0;
             int direction = 0;
+            int col = 0;
+            int row = 0;
 
-            for (int i = 0; i < matrix.length * matrix[0].length; i++) {
+            for (int i = 0; i < matrix[0].length * matrix.length; i++) {
                 result.add(matrix[row][col]);
-
                 visited[row][col] = true;
 
-                int currentRow = row + ROW_DIRECTIONS[direction];
-                int currentCol = col + COL_DIRECTIONS[direction];
+                final int newRow = row + ROW_DIRECTIONS[direction];
+                final int newCol = col + COL_DIRECTIONS[direction];
 
-                if (currentRow >= 0 && currentRow < matrix.length
-                        && currentCol >= 0 && currentCol < matrix[0].length
-                        && !visited[currentRow][currentCol])
-                {
-                    row = currentRow;
-                    col = currentCol;
+                if (newRow >= 0 && newRow < matrix.length && newCol >= 0 && newCol < matrix[0].length
+                        && !visited[newRow][newCol]) {
+                    row = newRow;
+                    col = newCol;
                 } else {
                     direction = (direction + 1) % 4;
                     row += ROW_DIRECTIONS[direction];
                     col += COL_DIRECTIONS[direction];
                 }
-
             }
-
             return result;
         }
     }
