@@ -15,16 +15,33 @@ package easy;
  * Minimize the total number of operations.
  */
 public class MoveZeroes {
-    public void moveZeroes(int[] nums) {
-        int lastNonZero = 0;
+    static class Optimal {
+        public void moveZeroes(int[] nums) {
+            int lastNonZero = 0;
 
-        for (int i = 0; i < nums.length; i++) {
-            if (nums[i] != 0) {
-                int temp = nums[lastNonZero];
-                nums[lastNonZero] = nums[i];
-                nums[i] = temp;
+            for (int i = 0; i < nums.length; i++) {
+                if (nums[i] != 0) {
+                    int temp = nums[lastNonZero];
+                    nums[lastNonZero] = nums[i];
+                    nums[i] = temp;
 
-                lastNonZero++;
+                    lastNonZero++;
+                }
+            }
+        }
+    }
+
+    static class SubOptimal {
+        public void moveZeroes(int[] nums) {
+            int j = 0;
+            for (int i = 0; i < nums.length; i++) {
+                if (nums[i] != 0) {
+                    nums[j] = nums[i];
+                    j++;
+                }
+            }
+            for (int i = j; i < nums.length; i++) {
+                nums[i] = 0;
             }
         }
     }
