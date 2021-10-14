@@ -27,28 +27,52 @@ import java.util.ArrayDeque;
  * 1 <= n <= 104
  */
 public class PerfectSquares {
-    public int numSquares(int n) {
-        for (int i = 1; i <= n; i++) {
-            if (canDivide(n, i)) {
-                return i;
-            }
-        }
+    static class DpSolution {
+        public int numSquares(int n) {
+            final int[] dp = new int[n + 1];
 
-        return 0;
+            for (int i = 1; i <= n; i++) {
+                final int sqrt = (int) Math.sqrt(i);
+
+                if (sqrt * sqrt == i) {
+                    dp[i] = 1;
+                } else {
+                    int min = Integer.MAX_VALUE;
+                    for (int j = 1; j <= sqrt; j++) {
+                        min = Math.min(min, dp[i - j * j] + 1);
+                    }
+                    dp[i] = min;
+                }
+
+            }
+
+            return dp[n];
+        }
     }
-
-    private boolean canDivide(int num, int count) {
-        if (count == 1) {
-            int sqrt = (int) Math.sqrt(num);
-            return sqrt * sqrt == num;
-        }
-
-        for (int i = 1; i * i <= num; i++) {
-            if (canDivide(num - i * i, count - 1)) {
-                return true;
+    static class Solution {
+        public int numSquares(int n) {
+            for (int i = 1; i <= n; i++) {
+                if (canDivide(n, i)) {
+                    return i;
+                }
             }
+
+            return 0;
         }
 
-        return false;
+        private boolean canDivide(int num, int count) {
+            if (count == 1) {
+                int sqrt = (int) Math.sqrt(num);
+                return sqrt * sqrt == num;
+            }
+
+            for (int i = 1; i * i <= num; i++) {
+                if (canDivide(num - i * i, count - 1)) {
+                    return true;
+                }
+            }
+
+            return false;
+        }
     }
 }
