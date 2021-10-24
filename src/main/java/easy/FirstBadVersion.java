@@ -26,27 +26,59 @@ package easy;
  * Output: 1
  */
 public class FirstBadVersion {
-    public int firstBadVersion(int n) {
-        int start = 0;
-        int end = n;
+    static class Iterative {
+        public int firstBadVersion(int n) {
+            int start = 0;
+            int end = n;
 
-        while (start < end) {
-            int mid = start + (end - start) / 2;
+            while (start < end) {
+                int mid = start + (end - start) / 2;
 
-            if (isBadVersion(mid)) {
-                end = mid;
-            } else {
-                start = mid + 1;
+                if (isBadVersion(mid)) {
+                    end = mid;
+                } else {
+                    start = mid + 1;
+                }
             }
+
+            return end;
+        }
+    }
+
+    static class Recursive {
+        public int firstBadVersion(int n) {
+            return binarySearch(1, n);
         }
 
-        return end;
+        private int binarySearch(int start, int end) {
+            if (end < start) {
+                return start;
+            }
+
+            final int mid = start + (end - start) / 2;
+
+            final boolean bad = isBadVersion(mid);
+
+            if (bad && !isBadVersion(mid - 1)) {
+                return mid;
+            }
+
+            if (!bad && isBadVersion(mid + 1)) {
+                return mid + 1;
+            }
+
+            if (!bad) {
+                return binarySearch(mid + 1, end);
+            } else {
+                return binarySearch(start, mid - 1);
+            }
+        }
     }
 
     /**
      * mock
      */
-    private boolean isBadVersion(int n) {
+    private static boolean isBadVersion(int n) {
         return true;
     }
 }

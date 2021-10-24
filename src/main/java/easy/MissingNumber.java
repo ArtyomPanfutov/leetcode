@@ -49,7 +49,6 @@ public class MissingNumber {
 
     }
 
-
     /**
      * Solution with XOR
      */
