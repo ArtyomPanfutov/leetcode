@@ -44,7 +44,7 @@ public class SortColors {
         int right = nums.length - 1;
         int current = 0;
 
-        while (current < right && left < right) {
+        while (current <= right) {
             if (nums[current] == 0) {
                 nums[current] = nums[left];
                 nums[left] = 0;
