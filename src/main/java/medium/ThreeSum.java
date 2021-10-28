@@ -32,38 +32,37 @@ import java.util.*;
  */
 public class ThreeSum {
     public List<List<Integer>> threeSum(int[] nums) {
-        List<List<Integer>> arr = new ArrayList<>();
+        final List<List<Integer>> result = new ArrayList<>();
 
         if (nums.length == 0) {
-            return arr;
+            return result;
         }
 
         Arrays.sort(nums);
-
         for (int i = 0; i < nums.length && nums[i] <= 0; i++) {
             if (i > 0 && nums[i] == nums[i - 1]) {
-                continue; // skip duplicates
+                continue;
             }
 
-            int j = i + 1;
-            int k = nums.length - 1;
+            int left = i + 1;
+            int right = nums.length - 1;
+            while (left < right) {
+                if (nums[i] + nums[left] + nums[right] == 0) {
+                    result.add(List.of(nums[i], nums[left], nums[right]));
 
-            while (j < k) {
-                if (nums[i] + nums[j] + nums[k] == 0) {
-                    arr.add(Arrays.asList(nums[i], nums[k], nums[j]));
+                    left++;
+                    right--;
 
-                    j++;
-                    k--;
-
-                    while (j < k && nums[j] == nums[j - 1]) j++;
-                    while (k > j && nums[k] == nums[k + 1]) k--;
-                } else if (nums[j] + nums[k] > -nums[i]) {
-                    k--;
+                    while (left < right && nums[left] == nums[left - 1]) left++;
+                    while (left < right && nums[right] == nums[right + 1]) right--;
+                } else if (nums[left] + nums[right] > -nums[i]) {
+                    right--;
                 } else {
-                    j++;
+                    left++;
                 }
             }
         }
-        return arr;
+
+        return result;
     }
 }
