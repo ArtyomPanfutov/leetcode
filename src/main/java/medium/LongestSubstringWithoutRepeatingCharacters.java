@@ -66,5 +66,25 @@ public class LongestSubstringWithoutRepeatingCharacters {
 
     /**
      * Sliding window
+     * Time complexity: O(2n)
      */
+    static class SlidingWindow {
+        public int lengthOfLongestSubstring(String s) {
+            int max = 0;
+            int left = 0;
+            int right = 0;
+
+            final int[] chars = new int[128];
+            while (right < s.length()) {
+                chars[s.charAt(right)]++;
+                while (chars[s.charAt(right)] > 1) {
+                    chars[s.charAt(left)]--;
+                    left++;
+                }
+                max = Math.max(max, right - left + 1);
+                right++;
+            }
+            return max;
+        }
+    }
 }
