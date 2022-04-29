@@ -83,4 +83,30 @@ public class BinaryTreeInOrderTraversal {
             return list;
         }
     }
+
+    public static final class MorrisTraversal {
+        public List<Integer> inorderTraversal(TreeNode root) {
+            final List<Integer> result = new ArrayList<>();
+
+            TreeNode node = root;
+            TreeNode prev;
+            while (node != null) {
+                if (node.left == null) {
+                    result.add(node.val);
+                    node = node.right;
+                } else {
+                    prev = node.left;
+                    while (prev.right != null) {
+                        prev = prev.right;
+                    }
+                    prev.right = node;
+                    final TreeNode temp = node;
+                    node = node.left;
+                    temp.left = null;
+                }
+            }
+
+            return result;
+        }
+    }
 }
