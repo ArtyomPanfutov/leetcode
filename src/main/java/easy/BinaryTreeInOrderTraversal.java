@@ -66,4 +66,21 @@ public class BinaryTreeInOrderTraversal {
             return result;
         }
     }
+
+    public static final class Recursive {
+        public List<Integer> inorderTraversal(TreeNode root) {
+            return traverse(root, new ArrayList<>());
+        }
+
+        private List<Integer> traverse(TreeNode root, List<Integer> list) {
+            if (root == null) {
+                return list;
+            }
+
+            traverse(root.left, list);
+            list.add(root.val);
+            traverse(root.right, list);
+            return list;
+        }
+    }
 }
