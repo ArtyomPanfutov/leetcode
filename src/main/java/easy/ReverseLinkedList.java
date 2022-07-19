@@ -13,17 +13,42 @@ import datastructures.ListNode;
  * Output: 5->4->3->2->1->NULL
  */
 public class ReverseLinkedList {
-    public ListNode reverseList(ListNode head) {
-        ListNode prev = null;
-        ListNode current = head;
-        while (current != null) {
-            ListNode temp = current.next;
+    public static class Iterative {
+        public ListNode reverseList(ListNode head) {
+            ListNode prev = null;
+            ListNode current = head;
+            while (current != null) {
+                ListNode temp = current.next;
 
-            current.next = prev;
-            prev = current;
-            current = temp;
+                current.next = prev;
+                prev = current;
+                current = temp;
+            }
+
+            return prev;
         }
+    }
 
-        return prev;
+    public static class Recursive {
+        public ListNode reverseList(ListNode head) {
+            if (head == null) return null;
+            return swap(null, head, head.next);
+        }
+    
+        private ListNode swap(ListNode prev, ListNode left, ListNode right) {
+            if (left != null && right != null) {
+                final ListNode temp = right.next;
+                left.next = prev;
+                right.next = left;
+                prev = right;
+                
+                return swap(prev, temp, temp != null ? temp.next : null);
+            } 
+            if (left != null) {
+                left.next = prev;
+                return left;
+            }
+            return prev;
+        }
     }
 }
