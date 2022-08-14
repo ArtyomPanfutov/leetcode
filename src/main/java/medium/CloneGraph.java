@@ -1,7 +1,7 @@
 package medium;
 
 
-import datastructures.Node;
+import datastructures.graphnode.Node;
 
 import java.util.ArrayDeque;
 import java.util.HashMap;
