@@ -27,7 +27,30 @@ import java.util.ArrayDeque;
  * 1 <= n <= 104
  */
 public class PerfectSquares {
-    static class DpSolution {
+    public static class AnotherDpSolution {
+        public int numSquares(int n) {
+            final int[] dp = new int[n + 1];
+            Arrays.fill(dp, n);
+            dp[0] = 0;
+
+            for (int i = 1; i < dp.length; i++) {
+                for (int j = 1; j <= i; j++) {
+                    final int square = j * j;
+
+                    if (i - square < 0) {
+                        break;
+                    }
+
+                    dp[i] = Math.min(dp[i], dp[i - square] + 1);
+
+                }
+            }
+
+            return dp[n];
+        }
+    }
+    
+    public static class DpSolution {
         public int numSquares(int n) {
             final int[] dp = new int[n + 1];
 
@@ -49,7 +72,7 @@ public class PerfectSquares {
             return dp[n];
         }
     }
-    static class Solution {
+    public static class Solution {
         public int numSquares(int n) {
             for (int i = 1; i <= n; i++) {
                 if (canDivide(n, i)) {
