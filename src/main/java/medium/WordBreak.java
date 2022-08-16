@@ -45,20 +45,19 @@ public class WordBreak {
      * Space complexity : O(n). Length of pp array is n+1n+1.
      */
     public boolean wordBreak(String s, List<String> wordDict) {
-        Set<String> set = new HashSet<>(wordDict);
-
-        boolean[] dp = new boolean[s.length() + 1];
+        final Set<String> set = new HashSet<>(wordDict);
+        final boolean[] dp = new boolean[s.length() + 1];
         dp[0] = true;
 
-        for (int i = 1; i <= s.length(); i++) {
-            for (int j = 0; j < i; j++) {
-                if (dp[j] && set.contains(s.substring(j, i))) {
-                    dp[i] = true;
+        for (int right = 1; right < dp.length; right++) {
+            for (int left = 0; left < right; left++) {
+                if (dp[left] && set.contains(s.substring(left, right))) {
+                    dp[right] = true;
                     break;
                 }
             }
         }
 
-        return dp[s.length()];
+        return dp[dp.length - 1];
     }
 }
