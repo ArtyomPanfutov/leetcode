@@ -32,9 +32,27 @@ package easy;
  * 1 <= n <= 1000
  */
 public class DivisorGame {
+    /**
+     * The most optimal
+     */
     public static class ConstantSolution {
         public boolean divisorGame(int n) {
             return n % 2 == 0;
+        }
+    }
+
+    /**
+     * Time limit exceeded
+     */
+    public static class BruteForceSolution {
+        public boolean divisorGame(int n) {
+            for (int i = 1; i < n; i++) {
+                if (n % i == 0 && !divisorGame(n - i)) {
+                    return true;
+                }
+            }
+
+            return false;
         }
     }
 }
