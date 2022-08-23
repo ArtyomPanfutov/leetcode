@@ -41,6 +41,30 @@ public class DivisorGame {
         }
     }
 
+    public static class DpSolution {
+        public boolean divisorGame(int n) {
+            // Result of the game for the player that starts (Alice in this case)
+            final boolean[] dp = new boolean[n + 1];
+
+            // Setting explicitly to emphasize that this is loosing numbers for Alice
+            dp[0] = false;
+            dp[1] = false;
+
+
+            // Alice will try all factors and choose the one which gives his opponent a losing value.
+            for (int i = 2; i < dp.length; i++) {
+                for (int j = 1; j < i; j++) {
+                    if (i % j == 0 && !dp[i - j]) {
+                        dp[i] = true;
+                        break;
+                    }
+                }
+            }
+
+            return dp[dp.length - 1];
+        }
+    }
+
     /**
      * Time limit exceeded
      */
