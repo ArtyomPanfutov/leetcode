@@ -50,7 +50,6 @@ public class DivisorGame {
             dp[0] = false;
             dp[1] = false;
 
-
             // Alice will try all factors and choose the one which gives his opponent a losing value.
             for (int i = 2; i < dp.length; i++) {
                 for (int j = 1; j < i; j++) {
