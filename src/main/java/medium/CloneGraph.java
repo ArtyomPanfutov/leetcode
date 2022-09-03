@@ -70,35 +70,67 @@ import java.util.Queue;
  * The Graph is connected and all nodes can be visited starting from the given node.
  */
 public class CloneGraph {
-    /**
-     * BFS solution
-     * V - total vertices
-     * E - total edges
-     * Time complexity: O(V + E)
-     * Space complexity: O(V + E)
-     */
-    public Node cloneGraph(Node node) {
-        if (node == null) return null;
+    public static class IterativeBfsSolution {
+        /**
+         * BFS solution
+         * V - total vertices
+         * E - total edges
+         * Time complexity: O(V + E)
+         * Space complexity: O(V + E)
+         */
+        public Node cloneGraph(Node node) {
+            if (node == null) return null;
 
-        Map<Node, Node> map = new HashMap<>();
-        Queue<Node> queue = new ArrayDeque<>();
+            Map<Node, Node> map = new HashMap<>();
+            Queue<Node> queue = new ArrayDeque<>();
 
-        Node head = new Node(node.val);
-        map.put(node, head);
-        queue.add(node);
-        while(!queue.isEmpty()) {
-            node = queue.poll();
+            Node head = new Node(node.val);
+            map.put(node, head);
+            queue.add(node);
+            while(!queue.isEmpty()) {
+                node = queue.poll();
 
-            for (Node curr : node.neighbors) {
-                if (!map.containsKey(curr)) {
-                    queue.add(curr);
-                    map.put(curr, new Node(curr.val));
+                for (Node curr : node.neighbors) {
+                    if (!map.containsKey(curr)) {
+                        queue.add(curr);
+                        map.put(curr, new Node(curr.val));
+                    }
+                    map.get(node).neighbors.add(map.get(curr));
                 }
-                map.get(node).neighbors.add(map.get(curr));
+
             }
+
+            return head;
+        }
+    }
+
+    public static class RecursiveDfsSolution {
+        public Node cloneGraph(Node node) {
+            if (node == null) {
+                return null;
+            }
+            final Map<Integer, Node> map = new HashMap<>();
+
+            return copy(node, map);
 
         }
 
-        return head;
+        private Node copy(Node node, Map<Integer, Node> map) {
+            if (!map.containsKey(node.val)) {
+                final Node newNode = new Node(node.val);
+                map.put(newNode.val, newNode);
+
+                for (Node neighbor : node.neighbors) {
+                    final Node cached = map.get(neighbor.val);
+                    if (cached != null) {
+                        newNode.neighbors.add(cached);
+                    } else {
+                        newNode.neighbors.add(copy(neighbor, map));
+                    }
+                }
+                return newNode;
+            }
+            return map.get(node.val);
+        }
     }
 }
