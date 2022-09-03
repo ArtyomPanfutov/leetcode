@@ -79,25 +79,29 @@ public class CloneGraph {
          * Space complexity: O(V + E)
          */
         public Node cloneGraph(Node node) {
-            if (node == null) return null;
+            if (node == null) {
+                return null;
+            }
 
-            Map<Node, Node> map = new HashMap<>();
-            Queue<Node> queue = new ArrayDeque<>();
+            final Queue<Node> queue = new ArrayDeque<>();
+            final Map<Node, Node> map = new HashMap<>();
 
-            Node head = new Node(node.val);
-            map.put(node, head);
+            final Node head = new Node(node.val);
             queue.add(node);
-            while(!queue.isEmpty()) {
-                node = queue.poll();
+            map.put(node, head);
 
-                for (Node curr : node.neighbors) {
-                    if (!map.containsKey(curr)) {
-                        queue.add(curr);
-                        map.put(curr, new Node(curr.val));
+            while (!queue.isEmpty()) {
+                final Node current = queue.poll();
+
+                for (Node neighbor : current.neighbors) {
+                    Node newNeighbor = map.get(neighbor);
+                    if (newNeighbor == null) {
+                        queue.add(neighbor);
+                        newNeighbor = new Node(neighbor.val);
+                        map.put(neighbor, newNeighbor);
                     }
-                    map.get(node).neighbors.add(map.get(curr));
+                    map.get(current).neighbors.add(newNeighbor);
                 }
-
             }
 
             return head;
