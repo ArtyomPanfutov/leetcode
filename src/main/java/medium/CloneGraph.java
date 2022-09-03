@@ -109,9 +109,7 @@ public class CloneGraph {
             if (node == null) {
                 return null;
             }
-            final Map<Integer, Node> map = new HashMap<>();
-
-            return copy(node, map);
+            return copy(node, new HashMap<>());
 
         }
 
