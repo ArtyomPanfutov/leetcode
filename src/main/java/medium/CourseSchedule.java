@@ -41,42 +41,44 @@ public class CourseSchedule {
      */
     private static class RecursiveDfs {
         public boolean canFinish(int numCourses, int[][] prerequisites) {
-            Map<Integer, List<Integer>> map = new HashMap<>();
+            final Map<Integer, List<Integer>> map = new HashMap<>();
 
             for (int[] prerequisite : prerequisites) {
-                List<Integer> list;
-                if (map.get(prerequisite[0]) == null) {
-                    list = new ArrayList<>();
-                } else {
-                    list = map.get(prerequisite[0]);
-                }
-
-                list.add(prerequisite[1]);
-
-                map.put(prerequisite[0], list);
+                final List<Integer> courses = map.getOrDefault(prerequisite[0], new ArrayList<>());
+                courses.add(prerequisite[1]);
+                map.put(prerequisite[0], courses);
             }
 
-            Set<Integer> visited = new HashSet<>();
+            final Set<Integer> visited = new HashSet<>();
+
             for (int course : map.keySet()) {
-                if (!dfs(course, visited, map)) return false;
+                if (!dfs(course, visited, map)) {
+                    return false;
+                }
             }
 
             return true;
         }
 
         private boolean dfs(int course, Set<Integer> visited, Map<Integer, List<Integer>> map) {
-            if (visited.contains(course)) return false;
-            if (map.get(course) == null || map.get(course).isEmpty()) return true;
+            if (visited.contains(course)) {
+                return false;
+            }
+            if (map.get(course) == null || map.get(course).isEmpty()) {
+                return true;
+            }
 
             visited.add(course);
-            for (int j : map.get(course)) {
-                if (!dfs(j, visited, map)) return false;
 
-                visited.remove(course);
+            for (int prerequisite : map.get(course)) {
+                if (!dfs(prerequisite, visited, map)) {
+                    return false;
+                }
             }
+            visited.remove(course);
             map.put(course, Collections.emptyList());
-            return true;
 
+            return true;
         }
     }
 }
