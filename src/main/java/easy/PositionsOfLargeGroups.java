@@ -1,8 +1,8 @@
 package easy;
 
-import com.sun.tools.javac.util.List;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 830. Positions of Large GroupsIn a string s of lowercase letters, these letters form consecutive groups of the same character.

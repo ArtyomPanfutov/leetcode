@@ -3,8 +3,6 @@ package easy;
 import java.util.ArrayList;
 import java.util.List;
 
-import static sun.jvm.hotspot.runtime.BasicObjectLock.size;
-
 /**
  * 682. Baseball Game
  * You are keeping score for a baseball game with strange rules. The game consists of several rounds, where the scores of past rounds may affect future rounds' scores.
@@ -63,7 +61,7 @@ public class BaseballGame {
             List<Integer> record = new ArrayList<>();
 
             for (String op : ops) {
-                int size = size();
+                int size = record.size();
                 switch (op) {
                     case "C":
                         record.remove(size - 1);
