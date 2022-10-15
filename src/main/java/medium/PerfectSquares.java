@@ -1,6 +1,7 @@
 package medium;
 
 import java.util.ArrayDeque;
+import java.util.Arrays;
 
 /**
  * 279. Perfect Squares

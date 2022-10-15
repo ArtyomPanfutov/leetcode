@@ -1,11 +1,7 @@
 package hard;
 
-import com.sun.tools.javac.util.List;
 
-import java.util.ArrayDeque;
-import java.util.HashSet;
-import java.util.Queue;
-import java.util.Set;
+import java.util.*;
 
 /**
  * 1293. Shortest Path in a Grid with Obstacles Elimination
