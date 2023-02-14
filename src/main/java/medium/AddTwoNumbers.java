@@ -39,8 +39,8 @@ public class AddTwoNumbers {
      * Space complexity: O(min(m,n))
      */
     public ListNode addTwoNumbers(ListNode l1, ListNode l2) {
-        ListNode dummy = new ListNode();
-        ListNode node = dummy;
+        var dummy = new ListNode();
+        var node = dummy;
 
         int carry = 0;
 
