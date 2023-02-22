@@ -19,28 +19,44 @@ package medium;
  *
  */
 public class StringToInteger {
-    public int myAtoi(String s) {
-        int sign = 1;
-        int i = 0;
-        int retVal = 0;
-
-        while (i < s.length() && s.charAt(i) == ' ') i++;
-
-        if (i < s.length() && (s.charAt(i) == '+' || s.charAt(i) == '-')) {
-            sign = (s.charAt(i) == '-') ? -1 : 1;
-            i++;
+      public int myAtoi(String s) {
+        if (s.length() == 0) {
+            return 0;
         }
 
-        while (i < s.length() && Character.isDigit(s.charAt(i))) {
-            if ((retVal > Integer.MAX_VALUE / 10) ||
-                    (retVal == Integer.MAX_VALUE / 10 && s.charAt(i) - '0' > Integer.MAX_VALUE % 10)){
+        int number = 0;
+        boolean isNegative = false;
 
-                return (sign == 1) ? Integer.MAX_VALUE : Integer.MIN_VALUE;
+        int current = 0;
+        while(current < s.length() && s.charAt(current) == ' ') {
+            current++;
+        }
+
+        if (current < s.length() && s.charAt(current) == '-') {
+            isNegative = true;
+            current++;
+        } else if (current < s.length() && s.charAt(current) == '+') {
+            current++;
+        }
+
+        while (current < s.length()) {
+            if (!Character.isDigit(s.charAt(current))) {
+                return isNegative ? number * -1 : number;
             }
 
-            retVal = retVal * 10 + (s.charAt(i) - '0');
-            i++;
+            int nextDigit = s.charAt(current) - '0';
+
+            if (Integer.MAX_VALUE / 10 < number 
+                || (number == Integer.MAX_VALUE / 10 && nextDigit > Integer.MAX_VALUE % 10)) {
+                return isNegative ? Integer.MIN_VALUE : Integer.MAX_VALUE;
+            }
+
+            number *= 10;
+            number += nextDigit;
+
+            current++;
         }
 
-        return sign * retVal;
-    }}
+        return isNegative ? number * -1 : number;
+    }
+}
