@@ -62,4 +62,61 @@ public class LongestPalindromicSubstring {
             return right - left - 1;
         }
     }
+    
+    /**
+     * DP Solution
+     */
+    class Solution {
+        private class PalindromeRange {
+            String string;
+            int start;
+            int end;
+
+            PalindromeRange(int start, int end, String s) {
+                this.start = start;
+                this.end = end;
+                this.string = s;
+            }
+
+            int length() {
+                return end - start + 1;
+            }
+
+            String substring() {
+                return string.substring(start, end + 1);
+            }
+
+        }
+
+        public String longestPalindrome(String s) {
+            var longestRange = new PalindromeRange(0, 0, s);
+            var dp = new boolean[s.length()][s.length()];
+            for (int right = 0; right < s.length(); right++) {
+                for (int left = 0; left < right + 1; left++) {
+                    if (isPalindrome(s, left, right, dp) && longestRange.length() < right - left + 1) {
+                        longestRange = new PalindromeRange(left, right, s); 
+                    } 
+                }
+            }
+
+            return longestRange.substring();
+        }
+
+        private boolean isPalindrome(String s, int start, int end, boolean[][] dp) {
+            if (start == end) {
+                dp[start][end] = true;
+            } else if (end == start + 1) {
+                dp[start][end] = s.charAt(start) == s.charAt(end);
+            } else {
+                int prevStart = (start < s.length()) 
+                    ? start + 1 : start;
+                int prevEnd = (end > 0)
+                    ? end - 1 : end;
+
+                dp[start][end] = dp[prevStart][prevEnd] && s.charAt(start) == s.charAt(end);
+            }
+
+            return dp[start][end];
+        }
+    }
 }
