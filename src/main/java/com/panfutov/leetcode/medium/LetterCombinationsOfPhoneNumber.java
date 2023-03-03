@@ -36,43 +36,42 @@ import java.util.Map;
  * digits[i] is a digit in the range ['2', '9'].
  */
 public class LetterCombinationsOfPhoneNumber {
-    private static final Map<Integer, char[]> map = new HashMap<>();
-    static {
-        map.put(2, new char[] {'a', 'b', 'c'});
-        map.put(3, new char[] {'d', 'e', 'f'});
-        map.put(4, new char[] {'g', 'h', 'i'});
-        map.put(5, new char[] {'j', 'k', 'l'});
-        map.put(6, new char[] {'m', 'n', 'o'});
-        map.put(7, new char[] {'p', 'q', 'r', 's'});
-        map.put(8, new char[] {'t', 'u', 'v'});
-        map.put(9, new char[] {'w', 'x', 'y', 'z'});
-    }
 
-    public List<String> letterCombinations(String digits) {
-        List<String> result = new ArrayList<>();
+    public static class Solution {
+        private static final Map<Character, List<String>> MAP = Map.of(
+                '2', List.of("a", "b", "c"),
+                '3', List.of("d", "e", "f"),
+                '4', List.of("g", "h", "i"),
+                '5', List.of("j", "k", "l"),
+                '6', List.of("m", "n", "o"),
+                '7', List.of("p", "q", "r", "s"),
+                '8', List.of("t", "u", "v"),
+                '9', List.of("w", "x", "y", "z")
+        );
 
-        if (digits.length() == 0) {
+        public List<String> letterCombinations(String digits) {
+            List<String> result = new ArrayList<>();
+            if (digits.length() == 0) {
+                return result;
+            }
+
+            fill(result, digits, 0, new StringBuilder());
+
             return result;
         }
 
-        fill(result, new char[0], digits, 0);
+        private void fill(List<String> result, String digits, int index, StringBuilder current) {
+            if (index == digits.length()) {
+                result.add(current.toString());
+                return;
+            }
 
-        return result;
-    }
-
-    private void fill(List<String> result, char[] current, String digits, int index) {
-        if (index == digits.length()) {
-            result.add(new String(current));
-            return;
-        }
-
-        char[] letters = map.get(digits.charAt(index) - '0');
-
-        for (char letter : letters) {
-            char[] next = new char[current.length + 1];
-            System.arraycopy(current, 0, next, 0, current.length);
-            next[next.length - 1] = letter;
-            fill(result, next, digits, index + 1);
+            List<String> variants = MAP.get(digits.charAt(index));
+            for (var letter : variants) {
+                StringBuilder newString = new StringBuilder(current);
+                newString.append(letter);
+                fill(result, digits, index + 1, newString);
+            }
         }
     }
 }
