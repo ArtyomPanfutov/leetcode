@@ -43,26 +43,30 @@ import java.util.Map;
  * s consists of parentheses only '()[]{}'.
  */
 public class ValidParentheses {
+    private static Map<Character, Character> MAP = Map.of(
+        ')', '(',
+        ']', '[',
+        '}', '{'
+    );
+
     public boolean isValid(String s) {
-        Map<Character, Character> map = new HashMap<>();
+        var stack = new ArrayDeque<Character>();
+        for (var ch : s.toCharArray()) {
+            if (isClosingParentheses(ch)) {
+                var isValid = !stack.isEmpty() && stack.pop().equals(MAP.get(ch));
 
-        map.put('}', '{');
-        map.put(')', '(');
-        map.put(']', '[');
-
-        Deque<Character> stack = new ArrayDeque<>();
-
-        for (char ch : s.toCharArray()) {
-            if (map.containsKey(ch)) {
-                if (map.get(ch) != stack.peek()) {
+                if (!isValid) {
                     return false;
                 }
-                stack.pop();
             } else {
                 stack.push(ch);
             }
         }
 
         return stack.isEmpty();
+    }
+
+    private boolean isClosingParentheses(Character ch)  {
+        return MAP.containsKey(ch);
     }
 }
