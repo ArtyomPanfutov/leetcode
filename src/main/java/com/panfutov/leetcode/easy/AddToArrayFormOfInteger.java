@@ -43,24 +43,24 @@ public class AddToArrayFormOfInteger {
         public List<Integer> addToArrayForm(int[] num, int k) {
             Deque<Integer> result = new ArrayDeque<>();
 
-            int remainder = 0;
+            int carry = 0;
             for (int i = num.length - 1; i >= 0 || k > 0; i--) {
                 int sum = i >= 0
-                        ? k % 10 + num[i] + remainder
-                        : k % 10 + remainder;
+                        ? k % 10 + num[i] + carry
+                        : k % 10 + carry;
 
                 if (sum >= 10) {
-                    remainder = 1;
+                    carry = 1;
                     sum %= 10;
                 } else {
-                    remainder = 0;
+                    carry = 0;
                 }
                 k /= 10;
                 result.addFirst(sum);
             }
 
-            if (remainder != 0) {
-                result.addFirst(remainder);
+            if (carry != 0) {
+                result.addFirst(carry);
             }
 
             return new ArrayList<>(result);
