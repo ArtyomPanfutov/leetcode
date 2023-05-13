@@ -41,8 +41,16 @@ Explanation: a@b.com is repeated two times.
 */
 
 # Write your MySQL query statement below
+# join solution
 select distinct p1.email
   from Person p1
   inner join Person p2
           on p2.email = p1.email
   where p2.id != p1.id
+
+# Write your MySQL query statement below
+# group by having solution
+select email
+from Person
+group by email
+having count(email) > 1
