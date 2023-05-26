@@ -27,7 +27,7 @@ import java.util.Set;
  * 0 <= nums.length <= 105
  * -109 <= nums[i] <= 109
  */
-public class longestConsecutiveSequence {
+public class LongestConsecutiveSequence {
     public static class SetSolution {
         public int longestConsecutive(int[] nums) {
             Set<Integer> set = new HashSet<>();
