@@ -39,7 +39,7 @@ import java.util.Queue;
 public class NumberOfRecentCalls {
     class RecentCounter {
 
-        private Queue<Integer> queue = new LinkedList<>();
+        private final Queue<Integer> queue = new LinkedList<>();
 
         public RecentCounter() {
         }
