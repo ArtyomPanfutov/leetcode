@@ -27,43 +27,36 @@ import java.util.Set;
  * s consist of printable ASCII characters.
  */
 public class ReverseVowelsOfAString {
-    private static final Set<Character> VOWELS = new HashSet<>();
+    public static class Solution {
+        private static final Set<Character> vowels = Set.of(
+                'a', 'A', 'e', 'E', 'i', 'I', 'o', 'O', 'u', 'U');
 
-    static {
-        VOWELS.add('a');
-        VOWELS.add('A');
-        VOWELS.add('e');
-        VOWELS.add('E');
-        VOWELS.add('i');
-        VOWELS.add('I');
-        VOWELS.add('o');
-        VOWELS.add('O');
-        VOWELS.add('u');
-        VOWELS.add('U');
-    }
+        public String reverseVowels(String s) {
+            int left = 0;
+            int right = s.length() - 1;
 
-    public String reverseVowels(String s) {
-        int left = 0;
-        int right = s.length() - 1;
+            char[] string = s.toCharArray();
 
-        char[] string = s.toCharArray();
-        while (left < right) {
-            if (VOWELS.contains(string[left]) && VOWELS.contains(string[right])) {
-                char temp = string[left];
-                string[left] = string[right];
-                string[right] = temp;
-                left++;
-                right--;
-            } else if (VOWELS.contains(string[left])) {
-                right--;
-            } else if (VOWELS.contains(string[right])) {
-                left++;
-            } else {
-                left++;
-                right--;
+            while (left < right) {
+                if (vowels.contains(string[left]) && vowels.contains(string[right])) {
+                    char temp = string[left];
+                    string[left] = string[right];
+                    string[right] = temp;
+
+                    left++;
+                    right--;
+                } else if (vowels.contains(string[left])) {
+                    right--;
+                } else if (vowels.contains(string[right])) {
+                    left++;
+                } else {
+                    left++;
+                    right--;
+                }
+
             }
-        }
 
-        return new String(string);
+            return new String(string);
+        }
     }
 }
