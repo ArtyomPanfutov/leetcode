@@ -27,19 +27,14 @@ package com.panfutov.leetcode.easy;
  */
 public class CanPlaceFlowers {
     public boolean canPlaceFlowers(int[] flowerbed, int n) {
-        for (int i = 0; i < flowerbed.length && n > 0; i++) {
-            if (flowerbed[i] == 0) {
-                if ((i == 0 && i == flowerbed.length - 1)
-                        || (i == 0 && i < flowerbed.length - 1 && flowerbed[i + 1] != 1)
-                        || (i > 0 && i < flowerbed.length - 1 && flowerbed[i - 1] != 1 && flowerbed[i + 1] != 1)
-                        || (i > 0 && i == flowerbed.length - 1 && flowerbed[i - 1] != 1))
-                {
-                    n--;
-                    flowerbed[i] = 1;
-                }
+        int remaining = n;
+        for (int i = 0; i < flowerbed.length && remaining > 0; i++) {
+            if (flowerbed[i] == 0 && (i == 0 || flowerbed[i - 1] == 0)
+                    && (i == flowerbed.length - 1 || flowerbed[i + 1] == 0)) {
+                flowerbed[i] = 1;
+                remaining--;
             }
         }
 
-        return n == 0;
-    }
+        return remaining == 0;    }
 }
