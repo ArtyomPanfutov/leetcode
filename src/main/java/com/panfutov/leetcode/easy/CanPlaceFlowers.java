@@ -26,15 +26,18 @@ package com.panfutov.leetcode.easy;
  * 0 <= n <= flowerbed.length
  */
 public class CanPlaceFlowers {
-    public boolean canPlaceFlowers(int[] flowerbed, int n) {
-        int remaining = n;
-        for (int i = 0; i < flowerbed.length && remaining > 0; i++) {
-            if (flowerbed[i] == 0 && (i == 0 || flowerbed[i - 1] == 0)
-                    && (i == flowerbed.length - 1 || flowerbed[i + 1] == 0)) {
-                flowerbed[i] = 1;
-                remaining--;
+    public static class Solution {
+        public boolean canPlaceFlowers(int[] flowerbed, int n) {
+            int remaining = n;
+            for (int i = 0; i < flowerbed.length && remaining > 0; i++) {
+                if (flowerbed[i] == 0 && (i == 0 || flowerbed[i - 1] == 0)
+                        && (i == flowerbed.length - 1 || flowerbed[i + 1] == 0)) {
+                    flowerbed[i] = 1;
+                    remaining--;
+                }
             }
-        }
 
-        return remaining == 0;    }
+            return remaining == 0;
+        }
+    }
 }
