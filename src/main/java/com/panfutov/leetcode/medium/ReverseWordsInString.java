@@ -91,11 +91,11 @@ public class ReverseWordsInString {
                 left++;
 
                 if (left < 0) {
-                    sb.append(s.substring(0, right + 1));
+                    sb.append(s, 0, right + 1);
                     break;
                 }
 
-                sb.append(s.substring(left, right + 1));
+                sb.append(s, left, right + 1);
                 sb.append(' ');
                 current = left - 1;
             }
