@@ -46,7 +46,7 @@ package com.panfutov.leetcode.medium;
  * Follow-up: If the string data type is mutable in your language, can you solve it in-place with O(1) extra space?
  */
 public class ReverseWordsInString {
-    static class AdditionalSpaceSolution {
+    public static class AdditionalSpaceSolution {
         public String reverseWords(String s) {
             final StringBuilder result = new StringBuilder();
 
@@ -71,6 +71,40 @@ public class ReverseWordsInString {
             }
 
             return result.toString();
+        }
+    }
+
+    public static class StringBuilderFromEndSolution {
+        public String reverseWords(String s) {
+            var sb = new StringBuilder();
+
+            int current = s.length() - 1;
+            while (current >= 0) {
+                int right = current;
+                while (right >= 0 && s.charAt(right) == ' ') {
+                    right--;
+                }
+                int left = right - 1;
+                while (left >= 0 && s.charAt(left) != ' ') {
+                    left--;
+                }
+                left++;
+
+                if (left < 0) {
+                    sb.append(s.substring(0, right + 1));
+                    break;
+                }
+
+                sb.append(s.substring(left, right + 1));
+                sb.append(' ');
+                current = left - 1;
+            }
+            if (sb.charAt(sb.length() - 1) == ' ') {
+                sb.deleteCharAt(sb.length() - 1);
+            }
+
+            return sb.toString();
+
         }
     }
 }
