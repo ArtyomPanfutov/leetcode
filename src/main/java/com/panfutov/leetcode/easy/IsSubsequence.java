@@ -48,4 +48,20 @@ public class IsSubsequence {
             return left == s.length();
         }
     }
+
+    public static final class AnotherWay {
+        public boolean isSubsequence(String s, String t) {
+            int right = 0;
+            for (int i = 0; i < s.length(); i++) {
+                while (right < t.length() && s.charAt(i) != t.charAt(right)) {
+                    right++;
+                }
+                if (right >= t.length() ||  s.charAt(i) != t.charAt(right)) {
+                    return false;
+                }
+                right++;
+            }
+            return true;
+        }
+    }
 }
