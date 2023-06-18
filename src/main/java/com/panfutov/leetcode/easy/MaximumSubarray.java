@@ -29,57 +29,61 @@ package com.panfutov.leetcode.easy;
  */
 public class MaximumSubarray {
 
-    /**
-     * O(n) solution
-     */
-    public int maxSubArrayLin(int[] nums) {
-        int max = nums[0];
-        int current = nums[0];
+    public static class LinearSolution {
+        /**
+         * O(n) solution
+         */
+        public int maxSubArray(int[] nums) {
+            int max = nums[0];
+            int current = nums[0];
 
-        for (int i = 1; i < nums.length; i++) {
-            current = Math.max(nums[i], current + nums[i]);
-            max = Math.max(max, current);
+            for (int i = 1; i < nums.length; i++) {
+                current = Math.max(nums[i], current + nums[i]);
+                max = Math.max(max, current);
+            }
+
+            return max;
         }
-
-        return max;
     }
 
     /**
      * Divide and conquer approach
      */
-    public int maxSubArray(int[] nums) {
-        return solve(nums, 0, nums.length - 1);
-    }
-
-    private int solve(int[] nums, int l, int r) {
-        if (l == r) {
-            return nums[l];
+    public static class DivideAndConquerSolution {
+        public int maxSubArray(int[] nums) {
+            return solve(nums, 0, nums.length - 1);
         }
 
-        int mid = l + (r - l) / 2;
-        int lVal = solve(nums, l, mid);
-        int rVal = solve(nums, mid + 1, r);
-        int midVal = sum(nums, l, mid, r);
+        private int solve(int[] nums, int l, int r) {
+            if (l == r) {
+                return nums[l];
+            }
 
-        return Math.max(midVal, Math.max(lVal, rVal));
-    }
+            int mid = l + (r - l) / 2;
+            int lVal = solve(nums, l, mid);
+            int rVal = solve(nums, mid + 1, r);
+            int midVal = sum(nums, l, mid, r);
 
-    private int sum(int[] nums, int l, int mid, int r) {
-        int lSum = Integer.MIN_VALUE;
-        int rSum = Integer.MIN_VALUE;
-
-        int curSum = 0;
-        for (int i = mid; i >= l; i--) {
-            curSum += nums[i];
-            lSum = Math.max(curSum, lSum);
+            return Math.max(midVal, Math.max(lVal, rVal));
         }
 
-        curSum = 0;
-        for (int i = mid + 1; i <= r; i++) {
-            curSum += nums[i];
-            rSum = Math.max(curSum, rSum);
-        }
+        private int sum(int[] nums, int l, int mid, int r) {
+            int lSum = Integer.MIN_VALUE;
+            int rSum = Integer.MIN_VALUE;
 
-        return lSum + rSum;
+            int curSum = 0;
+            for (int i = mid; i >= l; i--) {
+                curSum += nums[i];
+                lSum = Math.max(curSum, lSum);
+            }
+
+            curSum = 0;
+            for (int i = mid + 1; i <= r; i++) {
+                curSum += nums[i];
+                rSum = Math.max(curSum, rSum);
+            }
+
+            return lSum + rSum;
+        }
     }
 }
