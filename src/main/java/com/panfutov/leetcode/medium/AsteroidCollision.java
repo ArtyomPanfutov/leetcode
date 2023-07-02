@@ -51,7 +51,7 @@ public class AsteroidCollision {
                     if (absPeek < absNum) {
                         deque.pop();
                         continue;
-                    } else if (absPeek== absNum) {
+                    } else if (absPeek == absNum) {
                         deque.pop();
                     }
                     append = false;
