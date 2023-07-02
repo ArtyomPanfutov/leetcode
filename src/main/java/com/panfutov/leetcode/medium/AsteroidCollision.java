@@ -3,6 +3,8 @@ package com.panfutov.leetcode.medium;
 import java.util.ArrayDeque;
 import java.util.Deque;
 
+import static java.lang.Math.*;
+
 /**
  * 735. Asteroid Collision
  * We are given an array asteroids of integers representing asteroids in a row.
@@ -44,10 +46,12 @@ public class AsteroidCollision {
             for (int num : asteroids) {
                 boolean append = true;
                 while (!deque.isEmpty() && deque.peek() > 0 && num < 0) {
-                    if (Math.abs(deque.peek()) < Math.abs(num)) {
+                    int absPeek = abs(deque.peek());
+                    int absNum = abs(num);
+                    if (absPeek < absNum) {
                         deque.pop();
                         continue;
-                    } else if (Math.abs(deque.peek()) == Math.abs(num)) {
+                    } else if (absPeek== absNum) {
                         deque.pop();
                     }
                     append = false;
