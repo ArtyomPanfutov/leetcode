@@ -1,5 +1,8 @@
 package com.panfutov.leetcode.medium;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * 2352. Equal Row and Column Pairs
  * Given a 0-indexed n x n integer matrix grid, return the number of pairs (ri, cj) such that row ri and column cj are equal.
@@ -53,4 +56,56 @@ public class EqualRowAndColumnPairs {
         }
 
     }
+
+    public static class TrieSolution {
+        private static class TrieNode {
+            private int count = 0;
+            private final Map<Integer, TrieNode> children = new HashMap<>();
+        }
+
+        private static class Trie {
+            private final TrieNode trie = new TrieNode();
+
+            public void insert(int[] arr) {
+                TrieNode node = this.trie;
+                for (int num : arr) {
+                    if (!node.children.containsKey(num)) {
+                        node.children.put(num, new TrieNode());
+                    }
+                    node = node.children.get(num);
+                }
+                node.count += 1;
+            }
+
+            public int search(int[] arr) {
+                TrieNode node = this.trie;
+                for (int num : arr) {
+                    if (node.children.containsKey(num)) {
+                        node = node.children.get(num);
+                    } else {
+                        return 0;
+                    }
+                }
+                return node.count;
+            }
+
+        }
+        public int equalPairs(int[][] grid) {
+            var trie = new Trie();
+            for (int[] row : grid) {
+                trie.insert(row);
+            }
+
+            int count = 0;
+            for (int i = 0; i < grid.length; i++) {
+                var colArray = new int[grid.length];
+                for (int j = 0; j < grid.length; j++) {
+                    colArray[j] = grid[j][i];
+                }
+                count += trie.search(colArray);
+            }
+            return count;
+        }
+    }
+
 }
