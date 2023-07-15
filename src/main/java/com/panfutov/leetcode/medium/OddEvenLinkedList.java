@@ -33,28 +33,26 @@ import com.panfutov.leetcode.datastructures.ListNode;
  * -106 <= Node.val <= 106
  */
 public class OddEvenLinkedList {
-    public ListNode oddEvenList(ListNode head) {
-        if (head == null) {
-            return null;
+    public static class Solution {
+        public ListNode oddEvenList(ListNode head) {
+            if (head == null || head.next == null) {
+                return head;
+            }
+            ListNode evenHead = head.next;
+
+            ListNode oddCurrent = head;
+            ListNode evenCurrent = evenHead;
+            while (evenCurrent != null && evenCurrent.next != null) {
+                oddCurrent.next = evenCurrent.next;
+                oddCurrent = oddCurrent.next;
+                evenCurrent.next = oddCurrent.next;
+                evenCurrent = evenCurrent.next;
+            }
+
+            oddCurrent.next = evenHead;
+
+            return head;
+
         }
-
-        ListNode dummy = new ListNode();
-        dummy.next = head;
-
-        ListNode headEven = head.next;
-        ListNode currentEven = headEven;
-        ListNode current = head;
-
-        while (current.next != null && currentEven.next != null) {
-            current.next = current.next.next;
-            current = current.next;
-
-            currentEven.next = currentEven.next.next;
-            currentEven = currentEven.next;
-        }
-
-        current.next = headEven;
-
-        return dummy.next;
     }
 }
