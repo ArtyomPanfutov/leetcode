@@ -29,21 +29,38 @@ import com.panfutov.leetcode.datastructures.TreeNode;
  * root is a binary search tree.
  */
 public class SearchInBinarySearchTree {
-    public TreeNode searchBST(TreeNode root, int val) {
-        TreeNode node = root;
+    public static class IterativeSolution {
+        public TreeNode searchBST(TreeNode root, int val) {
+            TreeNode node = root;
 
-        while (node != null) {
-            if (node.val == val) {
-                return node;
+            while (node != null) {
+                if (node.val == val) {
+                    return node;
+                }
+
+                if (node.val < val) {
+                    node = node.right;
+                } else {
+                    node = node.left;
+                }
             }
 
-            if (node.val < val) {
-                node = node.right;
-            } else {
-                node = node.left;
-            }
+            return null;
         }
+    }
 
-        return null;
+    public static class RecursiveSolution {
+        public TreeNode searchBST(TreeNode root, int val) {
+            if (root == null) {
+                return null;
+            }
+            if (root.val == val) {
+                return root;
+            }
+            if (root.val > val) {
+                return searchBST(root.left, val);
+            }
+            return searchBST(root.right, val);
+        }
     }
 }
