@@ -44,7 +44,26 @@ import java.util.*;
  * Follow up: Recursive solution is trivial, could you do it iteratively?
  */
 public class BinaryTreePostOrderTraversal {
-    class DoublePushSolution {
+    public static class Recursive {
+        public List<Integer> postorderTraversal(TreeNode root) {
+            List<Integer> list = new ArrayList<>();
+            traverse(root, list);
+            return list;
+        }
+
+        private void traverse(TreeNode root, List<Integer> list) {
+            if (root == null) {
+                return;
+            }
+            traverse(root.left, list);
+            traverse(root.right, list);
+
+            list.add(root.val);
+        }
+
+    }
+
+    public static class DoublePushSolution {
         public List<Integer> postorderTraversal(TreeNode root) {
             if (root == null) {
                 return Collections.emptyList();
