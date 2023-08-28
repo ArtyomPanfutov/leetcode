@@ -20,6 +20,38 @@ import java.util.Queue;
  */
 public class StackUsingQueues {
 
+    public static class OneQueue {
+        class MyStack {
+
+            private final Queue<Integer> queue = new LinkedList<>();
+
+            public MyStack() {
+
+            }
+
+            public void push(int x) {
+                queue.add(x);
+                int size = queue.size();
+                while (size > 1) {
+                    queue.add(queue.poll());
+                    size--;
+                }
+            }
+
+            public int pop() {
+                return queue.poll();
+            }
+
+            public int top() {
+                return queue.peek();
+            }
+
+            public boolean empty() {
+                return queue.isEmpty();
+            }
+        }
+    }
+
     public static class FromOneToAnotherOnPush {
         class MyStack {
 
