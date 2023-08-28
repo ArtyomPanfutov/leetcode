@@ -37,6 +37,8 @@ public class StackUsingQueues {
                     tempQueue.add(queue.poll());
                 }
                 while (!tempQueue.isEmpty()) {
+                    // This is additional copying can be omitted and the temp queue can be assigned to the queue,
+                    // but the practice shows that it is actually faster to copy
                     queue.add(tempQueue.poll());
                 }
             }
