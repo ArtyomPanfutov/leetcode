@@ -1,6 +1,7 @@
 package com.panfutov.leetcode.easy;
 
 import java.util.LinkedList;
+import java.util.Queue;
 
 /**
  * 225. Implement Stack using Queues
@@ -18,30 +19,39 @@ import java.util.LinkedList;
  * Depending on your language, the queue may not be supported natively. You may simulate a queue using a list or deque (double-ended queue), as long as you use only a queue's standard operations.
  */
 public class StackUsingQueues {
-    LinkedList<Integer> data;
 
-    /** Initialize your data structure here. */
-    public StackUsingQueues() {
-        data = new LinkedList<>();
-    }
+    public static class FromOneToAnotherOnPush {
+        class MyStack {
 
-    /** Push element x onto stack. */
-    public void push(int x) {
-        data.add(0, x);
-    }
+            private final Queue<Integer> queue = new LinkedList<>();
 
-    /** Removes the element on top of the stack and returns that element. */
-    public int pop() {
-        return data.remove(0);
-    }
+            public MyStack() {
 
-    /** Get the top element. */
-    public int top() {
-        return data.get(0);
-    }
+            }
 
-    /** Returns whether the stack is empty. */
-    public boolean empty() {
-        return data.isEmpty();
+            public void push(int x) {
+                Queue<Integer> tempQueue = new LinkedList<>();
+                tempQueue.add(x);
+                int size = queue.size();
+                for (int i = 0; i < size; i++) {
+                    tempQueue.add(queue.poll());
+                }
+                while (!tempQueue.isEmpty()) {
+                    queue.add(tempQueue.poll());
+                }
+            }
+
+            public int pop() {
+                return queue.poll();
+            }
+
+            public int top() {
+                return queue.peek();
+            }
+
+            public boolean empty() {
+                return queue.isEmpty();
+            }
+        }
     }
 }
