@@ -36,20 +36,60 @@ package com.panfutov.leetcode.easy;
  */
 public class GreatestCommonDivisorOfStrings {
     /**
-     * Time complexity
-     * Space complexity O(n) - call stack
+     * Time complexity O(m + n)
+     * Space complexity O(m + n)
      */
-    public String gcdOfStrings(String str1, String str2) {
-        if (!(str1 + str2).equals(str2 + str1)) return "";
+    public class MathApproach {
+        public String gcdOfStrings(String str1, String str2) {
+            if (!(str1 + str2).equals(str2 + str1)) return "";
 
-        int divisor = gcd(str1.length(), str2.length());
+            int divisor = gcd(str1.length(), str2.length());
 
-        return str1.substring(0, divisor);
+            return str1.substring(0, divisor);
+        }
+
+        private int gcd(int a, int b) {
+            if (b == 0) return a;
+
+            return gcd(b, a % b);
+        }
     }
 
-    private int gcd(int a, int b) {
-        if (b == 0) return a;
+    /**
+     * Time complexity: O(min(m, n) * (m + n))
+     * Space complexity: O(min(m, n)
+     */
+    public class BruteForce {
+        public String gcdOfStrings(String str1, String str2) {
+            if (str1.length() < str2.length()) {
+                String temp = str2;
+                str2 = str1;
+                str1 = temp;
+            }
 
-        return gcd(b, a % b);
+            for (int i = str2.length(); i > 0; i--) {
+                if (matches(str1, str2, i)) {
+                    return str2.substring(0, i);
+                }
+            }
+
+            return "";
+        }
+
+        private boolean matches(String str1, String str2, int right) {
+            var divisor = str2.substring(0, right);
+            return isDivisor(str2, divisor) && isDivisor(str1, divisor);
+        }
+
+        private boolean isDivisor(String str, String divisor) {
+            int i = 0;
+            while(i + divisor.length() <= str.length()) {
+                if (!str.substring(i, i + divisor.length()).equals(divisor)) {
+                    return false;
+                }
+                i += divisor.length();
+            }
+            return i == str.length();
+        }
     }
 }
