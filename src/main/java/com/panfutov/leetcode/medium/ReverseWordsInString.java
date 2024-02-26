@@ -77,7 +77,6 @@ public class ReverseWordsInString {
     public static class StringBuilderFromEndSolution {
         public String reverseWords(String s) {
             var sb = new StringBuilder();
-
             int current = s.length() - 1;
             while (current >= 0) {
                 int right = current;
@@ -88,19 +87,14 @@ public class ReverseWordsInString {
                 while (left >= 0 && s.charAt(left) != ' ') {
                     left--;
                 }
-                left++;
-
-                if (left < 0) {
-                    sb.append(s, 0, right + 1);
-                    break;
+                if (left >= -1) {
+                    sb.append(' ');
+                    sb.append(s.substring(left + 1, right + 1));
                 }
-
-                sb.append(s, left, right + 1);
-                sb.append(' ');
                 current = left - 1;
             }
-            if (sb.charAt(sb.length() - 1) == ' ') {
-                sb.deleteCharAt(sb.length() - 1);
+            if (sb.charAt(0) == ' ') {
+                sb.deleteCharAt(0);
             }
 
             return sb.toString();
