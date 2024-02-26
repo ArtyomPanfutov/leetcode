@@ -1,6 +1,7 @@
 package com.panfutov.leetcode.medium;
 
-import java.util.LinkedList;
+import java.util.ArrayDeque;
+import java.util.Deque;
 
 /**
  * 443. String Compression
@@ -43,32 +44,29 @@ import java.util.LinkedList;
 public class StringCompression {
     public static class Solution {
         public int compress(char[] chars) {
-            int left = 0;
-            int right = 0;
-
-            int current = left;
-            while (right < chars.length) {
-                int count = 1;
-                right++;
-                while (right < chars.length && chars[current] == chars[right]) {
+            int tail = 0;
+            int count = 1;
+            for (int i = 0; i < chars.length; i++) {
+                if (i < chars.length - 1 && chars[i] == chars[i + 1]) {
                     count++;
-                    right++;
-                }
-                chars[left++] = chars[current];
-                if (count > 1) {
-                    LinkedList<Character> num = new LinkedList<>();
-                    while (count > 0) {
-                        num.addFirst((char)((count % 10) + '0'));
-                        count /= 10;
+                } else {
+                    chars[tail] = chars[i];
+                    tail++;
+                    if (count > 1) {
+                        Deque<Character> stack = new ArrayDeque<>();
+                        while (count > 0) {
+                            stack.push((char)((count % 10) + '0'));
+                            count /= 10;
+                        }
+                        while (!stack.isEmpty()) {
+                            chars[tail++] = stack.pop();
+                        }
                     }
-                    for (char ch : num) {
-                        chars[left++] = ch;
-                    }
+                    count = 1;
                 }
-                current = right;
             }
 
-            return left;
+            return tail;
         }
     }
 }
