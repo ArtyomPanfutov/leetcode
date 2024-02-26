@@ -1,5 +1,6 @@
 package com.panfutov.leetcode.medium;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -59,6 +60,28 @@ public class MaxNumberOfKSumPairs {
             }
 
             return operations;
+        }
+    }
+
+    public static class TwoPointersSolution {
+        public int maxOperations(int[] nums, int k) {
+            int count = 0;
+            int left = 0;
+            int right = nums.length - 1;
+            Arrays.sort(nums);
+            while (left < right) {
+                if (nums[left] + nums[right] == k) {
+                    left++;
+                    right--;
+                    count++;
+                } else if (nums[right] + nums[left] > k) {
+                    right--;
+                } else {
+                    left++;
+                }
+            }
+
+            return count;
         }
     }
 }
