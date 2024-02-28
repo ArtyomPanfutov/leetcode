@@ -40,26 +40,22 @@ public class MaximumNumberOfVowelsInSubstringOfGivenLength {
         private static final Set<Character> VOWELS = Set.of('a', 'e', 'i', 'o', 'u');
 
         public int maxVowels(String s, int k) {
-
-            int current = 0;
+            int count = 0;
             for (int i = 0; i < k; i++) {
                 if (VOWELS.contains(s.charAt(i))) {
-                    current++;
+                    count++;
                 }
             }
-            int max = current;
-            int left = 0;
-            int right = k - 1;
-            while (right < s.length() - 1) {
-                if (VOWELS.contains(s.charAt(left))) {
-                    current--;
+            int max = count;
+
+            for (int i = k - 1; i < s.length() - 1; i++) {
+                if (VOWELS.contains(s.charAt(i - k + 1))) {
+                    count--;
                 }
-                left++;
-                right++;
-                if (VOWELS.contains(s.charAt(right))) {
-                    current++;
+                if (VOWELS.contains(s.charAt(i + 1))) {
+                    count++;
                 }
-                max = Math.max(current, max);
+                max = Math.max(max, count);
             }
 
             return max;
