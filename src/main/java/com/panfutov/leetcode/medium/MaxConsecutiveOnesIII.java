@@ -29,26 +29,21 @@ package com.panfutov.leetcode.medium;
 public class MaxConsecutiveOnesIII {
     public static class Solution {
         public int longestOnes(int[] nums, int k) {
-            int left = 0;
-            int right = 0;
-
-            int zeroes = 0;
             int max = 0;
-            while (right < nums.length) {
-                if (nums[right] == 0) {
-                    zeroes++;
+            int left = 0;
+            int flipped = 0;
+            for (int i = 0; i < nums.length; i++) {
+                if (nums[i] == 0) {
+                    flipped++;
                 }
-
-                if (zeroes > k) {
-                    if (nums[left] == 0) {
-                        zeroes--;
+                if (flipped > k) {
+                    while (left < i && nums[left] != 0) {
+                        left++;
                     }
+                    flipped--;
                     left++;
                 }
-                if (zeroes <= k) {
-                    max = Math.max(max, right - left + 1);
-                }
-                right++;
+                max = Math.max(max, i - left + 1);
             }
             return max;
         }
