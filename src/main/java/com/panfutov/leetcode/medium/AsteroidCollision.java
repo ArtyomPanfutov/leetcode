@@ -42,32 +42,31 @@ public class AsteroidCollision {
     public static class Solution {
         public int[] asteroidCollision(int[] asteroids) {
             Deque<Integer> deque = new ArrayDeque<>();
-
-            for (int num : asteroids) {
-                boolean append = true;
-                while (!deque.isEmpty() && deque.peek() > 0 && num < 0) {
-                    int absPeek = abs(deque.peek());
-                    int absNum = abs(num);
-                    if (absPeek < absNum) {
-                        deque.pop();
-                        continue;
-                    } else if (absPeek == absNum) {
-                        deque.pop();
-                    }
-                    append = false;
-                    break;
-                }
-                if (append) {
-                    deque.push(num);
-                }
+            for (var asteroid : asteroids) {
+                add(deque, asteroid);
             }
-
             int[] result = new int[deque.size()];
-            for (int i = result.length - 1; i >= 0; i--) {
-                result[i] = deque.pop();
+            for (int i = 0; i < result.length; i++) {
+                result[i] = deque.removeFirst();
             }
             return result;
         }
-
+        private void add(Deque<Integer> deque, int asteroid) {
+            if (!deque.isEmpty()) {
+                var last = deque.getLast();
+                if (asteroid < 0 && last > 0) {
+                    if (Math.abs(asteroid) > Math.abs(last)) {
+                        deque.removeLast();
+                        add(deque, asteroid);
+                    } else if (Math.abs(asteroid) == Math.abs(last)) {
+                        deque.removeLast();
+                    }
+                } else {
+                    deque.addLast(asteroid);
+                }
+            } else {
+                deque.addLast(asteroid);
+            }
+        }
     }
 }
