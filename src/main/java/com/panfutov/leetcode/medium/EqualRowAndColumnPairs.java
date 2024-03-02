@@ -108,4 +108,34 @@ public class EqualRowAndColumnPairs {
         }
     }
 
+    public static class MapSolution {
+        public int equalPairs(int[][] grid) {
+            Map<String, Integer> map = new HashMap<>();
+            for (int i = 0; i < grid.length; i++) {
+                var sb = new StringBuilder();
+                for (int j = 0; j < grid[i].length; j++) {
+                    sb.append(grid[i][j]);
+                    sb.append(':');
+                }
+                var key = sb.toString();
+                map.put(key, map.getOrDefault(key, 0) + 1);
+            }
+
+            int pairs = 0;
+            for (int i = 0; i < grid.length; i++) {
+                var sb = new StringBuilder();
+                for (int j = 0; j < grid.length; j++) {
+                    sb.append(grid[j][i]);
+                    sb.append(':');
+                }
+                var key = sb.toString();
+                var count = map.get(key);
+                if (count != null) {
+                    pairs += count;
+                }
+            }
+            return pairs;
+        }
+    }
+
 }
