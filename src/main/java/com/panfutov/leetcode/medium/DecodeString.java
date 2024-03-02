@@ -1,5 +1,7 @@
 package com.panfutov.leetcode.medium;
 
+import java.util.ArrayDeque;
+import java.util.Deque;
 import java.util.LinkedList;
 import java.util.Queue;
 
@@ -65,6 +67,34 @@ public class DecodeString {
                     num = 0;
                 } else if (ch == ']') {
                     break;
+                } else {
+                    sb.append(ch);
+                }
+            }
+            return sb.toString();
+        }
+    }
+
+    private static class StackSolution {
+        public String decodeString(String s) {
+            Deque<Integer> stack = new ArrayDeque<>();
+            Deque<StringBuilder> sbStack = new ArrayDeque<>();
+            int count = 0;
+            var sb = new StringBuilder();
+            for (char ch : s.toCharArray()) {
+                if (Character.isDigit(ch)) {
+                    count = count * 10 + (ch - '0');
+                } else if (ch == '[') {
+                    stack.push(count);
+                    sbStack.push(sb);
+                    sb = new StringBuilder();
+                    count = 0;
+                } else if (ch == ']') {
+                    var temp = sb;
+                    sb = sbStack.pop();
+                    for (int i = stack.pop(); i > 0; i--) {
+                        sb.append(temp);
+                    }
                 } else {
                     sb.append(ch);
                 }
