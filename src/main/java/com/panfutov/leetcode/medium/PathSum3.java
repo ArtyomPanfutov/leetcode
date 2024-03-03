@@ -2,6 +2,9 @@ package com.panfutov.leetcode.medium;
 
 import com.panfutov.leetcode.datastructures.TreeNode;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * 437. Path Sum III
  * Given the root of a binary tree and an integer targetSum, return the number of paths where the sum of the values along the path equals targetSum.
@@ -32,7 +35,7 @@ public class PathSum3 {
     /**
      * Time complexity: O(n^2)
      */
-    public static class Solution {
+    public static class BruteforceSolution {
         private int count = 0;
 
         public int pathSum(TreeNode root, int targetSum) {
@@ -60,6 +63,34 @@ public class PathSum3 {
 
             countFrom(node.left, target, sum);
             countFrom(node.right, target, sum);
+        }
+    }
+
+    public static class PrefixSumSolution {
+        private int count = 0;
+
+        public int pathSum(TreeNode root, int targetSum) {
+            dfs(root, targetSum, 0, new HashMap<>());
+            return count;
+        }
+
+        private void dfs(TreeNode node, int target, long current, Map<Long, Integer> prefixSum) {
+            if (node == null) {
+                return;
+            }
+            current += node.val;
+            if (current == target) {
+                count++;
+            }
+            if (prefixSum.containsKey(current - target)) {
+                count += prefixSum.get(current - target);
+            }
+            prefixSum.put(current, prefixSum.getOrDefault(current, 0) + 1);
+
+            dfs(node.left, target, current, prefixSum);
+            dfs(node.right, target, current, prefixSum);
+
+            prefixSum.put(current, prefixSum.getOrDefault(current, 0) - 1);
         }
     }
 }
