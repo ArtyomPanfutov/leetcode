@@ -47,4 +47,26 @@ public class ArrangingCoins {
         }
     }
 
+    /**
+     * Time complexity: O(log(n))
+     * Space complexity: O(1)
+     */
+    public static class BinarySearchSolution {
+        public int arrangeCoins(int n) {
+            int max = 0;
+            int left = 0;
+            int right = n;
+            while (left <= right) {
+                int mid = left + (right - left) / 2;
+                double coins = ((double)mid / 2) * (mid + 1);
+                if (coins > n) {
+                    right = mid - 1;
+                } else {
+                    left = mid + 1;
+                    max = Math.max(max, mid);
+                }
+            }
+            return max;
+        }
+    }
 }
