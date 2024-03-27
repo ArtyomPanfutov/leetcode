@@ -64,4 +64,42 @@ public class TopKFrequentElements {
             return top;
         }
     }
+
+    /**
+     * Time complexity: O(n)
+     * Space complexity: O(n)
+     */
+    public static class BucketSortSolution {
+        public int[] topKFrequent(int[] nums, int k) {
+            Map<Integer, Integer> freqMap = new HashMap<>();
+            for (var num : nums) {
+                freqMap.put(num, freqMap.getOrDefault(num, 0) + 1);
+            }
+            List<Integer>[] arr = new List[nums.length + 1];
+            for (var entry : freqMap.entrySet()) {
+                List<Integer> list = arr[entry.getValue()];
+                if (list == null) {
+                    list = new ArrayList<>();
+                }
+                list.add(entry.getKey());
+                arr[entry.getValue()] = list;
+            }
+            int[] res = new int[k];
+            int curArr = arr.length - 1;
+            int curRes = 0;
+            while (curRes < res.length) {
+                List<Integer> values = arr[curArr];
+                if (values != null) {
+                    for (var val : values) {
+                        if (curRes == res.length) {
+                            break;
+                        }
+                        res[curRes++] = val;
+                    }
+                }
+                curArr--;
+            }
+            return res;
+        }
+    }
 }
