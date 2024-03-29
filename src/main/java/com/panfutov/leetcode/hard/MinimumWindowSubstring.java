@@ -31,60 +31,39 @@ import java.util.Map;
  */
 public class MinimumWindowSubstring {
     public String minWindow(String s, String t) {
-        Map<Character, Integer> tMap = new HashMap<>();
-
-        for (char ch : t.toCharArray()) {
-            tMap.put(ch, tMap.getOrDefault(ch, 0) + 1);
+        Map<Character, Integer> freq = new HashMap<>();
+        for (var ch : t.toCharArray()) {
+            freq.put(ch, freq.getOrDefault(ch, 0) + 1);
         }
 
-        int requiredCount = tMap.size();
-
+        Map<Character, Integer> window = new HashMap<>();
         int left = 0;
         int right = 0;
-
-        // For keeping track of how many unique characters in t
-        // are present in the current window in its desired frequency
-        int uniqueCount = 0;
-
-        Map<Character, Integer> windowCount = new HashMap<>();
-
-        // window length, left, right
-        int[] ans = {-1, 0, 0};
-
+        int current = 0;
+        int target = t.length();
+        int[] ans = new int[]{-1, 0, 0};
         while (right < s.length()) {
-            char current = s.charAt(right);
-
-            windowCount.put(current, windowCount.getOrDefault(current, 0) + 1);
-
-            if (tMap.containsKey(current)
-                    && windowCount.get(current).equals(tMap.get(current))) {
-                uniqueCount++;
+            window.put(s.charAt(right), window.getOrDefault(s.charAt(right), 0) + 1);
+            var count = freq.get(s.charAt(right));
+            if (count != null && count >= window.get(s.charAt(right))) {
+                current++;
             }
-
-            while (left <= right && uniqueCount == requiredCount) {
-                current = s.charAt(left);
-
-                if (ans[0] == -1 || right - left + 1 < ans[0]) {
-                    ans[0] = right - left + 1;
+            while (current == target) {
+                int len = right - left + 1;
+                if (ans[0] == -1 || len < ans[0]) {
+                    ans[0] = len;
                     ans[1] = left;
                     ans[2] = right;
                 }
-
-                int currentWindowCount = windowCount.get(current) - 1;
-                windowCount.put(current, currentWindowCount);
-
-                if (tMap.containsKey(current)
-                        && currentWindowCount < tMap.get(current)) {
-                    uniqueCount--;
+                var leftCount = window.get(s.charAt(left));
+                window.put(s.charAt(left), leftCount - 1);
+                if (freq.containsKey(s.charAt(left)) && leftCount - 1 < freq.get(s.charAt(left))) {
+                    current--;
                 }
                 left++;
             }
-
             right++;
         }
-
-        return ans[0] == -1
-                ? ""
-                : s.substring(ans[1], ans[2] + 1);
+        return ans[0] != -1 ? s.substring(ans[1], ans[2] + 1) : "";
     }
 }
