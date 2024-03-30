@@ -13,32 +13,77 @@ import java.util.Deque;
  * getMin() -- Retrieve the minimum element in the stack.
  */
 public class MinStack {
-    Deque<Integer> stack = new ArrayDeque<>();
-    Deque<Integer> minStack = new ArrayDeque<>();
+    public static class SingleStackSolution {
+        private final Deque<int[]> stack;
 
-    /** initialize your data structure here. */
-    public MinStack() {}
+        public SingleStackSolution() {
+            stack = new ArrayDeque<>();
+        }
 
-    public void push(int x) {
-        stack.push(x);
+        public void push(int val) {
+            if (stack.isEmpty()) {
+                stack.push(new int[]{val, val});
+            } else {
+                if (stack.peek()[0] < val) {
+                    stack.push(new int[]{stack.peek()[0], val});
+                } else {
+                    stack.push(new int[]{val, val});
+                }
+            }
+        }
 
-        if (minStack.isEmpty() || x <= minStack.peek()) {
-            minStack.push(x);
-        } else {
-            minStack.push(minStack.peek());
+        public void pop() {
+            stack.pop();
+        }
+
+        public int top() {
+            return stack.peek()[1];
+        }
+
+        public int getMin() {
+            return stack.peek()[0];
         }
     }
 
-    public void pop() {
-        stack.pop();
-        minStack.pop();
-    }
+    /**
+     * Your MinStack object will be instantiated and called as such:
+     * MinStack obj = new MinStack();
+     * obj.push(val);
+     * obj.pop();
+     * int param_3 = obj.top();
+     * int param_4 = obj.getMin();
+     */
+    public static class TwoStacksSolution {
+        Deque<Integer> stack = new ArrayDeque<>();
+        Deque<Integer> minStack = new ArrayDeque<>();
 
-    public int top() {
-        return stack.peek();
-    }
+        /**
+         * initialize your data structure here.
+         */
+        public TwoStacksSolution() {
+        }
 
-    public int getMin() {
-        return minStack.peek();
+        public void push(int x) {
+            stack.push(x);
+
+            if (minStack.isEmpty() || x <= minStack.peek()) {
+                minStack.push(x);
+            } else {
+                minStack.push(minStack.peek());
+            }
+        }
+
+        public void pop() {
+            stack.pop();
+            minStack.pop();
+        }
+
+        public int top() {
+            return stack.peek();
+        }
+
+        public int getMin() {
+            return minStack.peek();
+        }
     }
 }
