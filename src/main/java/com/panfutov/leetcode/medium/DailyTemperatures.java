@@ -17,19 +17,15 @@ public class DailyTemperatures {
      * Time compexity: O(N) wher N is the length of T;
      * Space complexity: O(W). The size of the stack is bounded as it represents strictly increasing temperatures
      */
-    public int[] dailyTemperatures(int[] T) {
-        int[] arr = new int[T.length];
+    public int[] dailyTemperatures(int[] temperatures) {
+        int[] res = new int[temperatures.length];
         Deque<Integer> stack = new ArrayDeque<>();
-
-        for (int i = T.length - 1; i >= 0; i--) {
-            while (!stack.isEmpty() && T[i] >= T[stack.peek()]) {
-                stack.pop();
+        for (int i = 0; i < temperatures.length; i++) {
+            while (!stack.isEmpty() && temperatures[i] > temperatures[stack.peek()]) {
+                res[stack.peek()] = i - stack.pop();
             }
-
-            arr[i] = stack.isEmpty() ? 0 : stack.peek() - i;
             stack.push(i);
         }
-
-        return arr;
+        return res;
     }
 }
