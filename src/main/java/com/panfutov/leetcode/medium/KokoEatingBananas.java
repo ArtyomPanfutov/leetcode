@@ -33,7 +33,7 @@ package com.panfutov.leetcode.medium;
  * 1 <= piles[i] <= 109
  */
 public class KokoEatingBananas {
-    class Solution {
+    public static class Solution {
         public int minEatingSpeed(int[] piles, int h) {
             int max = Integer.MIN_VALUE;
             for (var pile : piles) {
