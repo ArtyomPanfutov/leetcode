@@ -48,6 +48,24 @@ import java.util.Map;
  * Node.random is null or is pointing to some node in the linked list.
  */
 public class CopyListWithRandomPointer {
+    public static class TwoPasses {
+        public Node copyRandomList(Node head) {
+            Map<Node, Node> map = new HashMap<>();
+            var cur = head;
+            while (cur != null) {
+                map.put(cur, new Node(cur.val));
+                cur = cur.next;
+            }
+            cur = head;
+            while (cur != null) {
+                var node = map.get(cur);
+                node.next = map.get(cur.next);
+                node.random = map.get(cur.random);
+                cur = cur.next;
+            }
+            return map.get(head);
+        }
+    }
     public static class RecursiveWithHashMap {
         public Node copyRandomList(Node head) {
             return copy(new HashMap<>(), head);
