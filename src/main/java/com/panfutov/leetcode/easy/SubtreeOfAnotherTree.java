@@ -34,46 +34,73 @@ import java.util.Queue;
  * -104 <= subRoot.val <= 104
  */
 public class SubtreeOfAnotherTree {
-    /**
-     * Time complexity: O(N * M)
-     * Space complexity: O(N * M) (Queue for a node1 and call stack for a node2)
-     */
-    public boolean isSubtree(TreeNode root, TreeNode subRoot) {
-        Queue<TreeNode> queue = new LinkedList<>();
-        queue.add(root);
+    public static class Recursive {
+        public boolean isSubtree(TreeNode root, TreeNode subRoot) {
+            if (subRoot == null) {
+                return true;
+            }
+            if (root == null) {
+                return false;
+            }
+            if (isSame(root, subRoot)) {
+                return true;
+            }
+            return isSubtree(root.left, subRoot) || isSubtree(root.right, subRoot);
+        }
 
-        while (!queue.isEmpty()) {
-            TreeNode node = queue.poll();
+        private boolean isSame(TreeNode root, TreeNode subRoot) {
+            if (root == null && subRoot == null) {
+                return true;
+            }
+            if (root != null && subRoot != null && root.val == subRoot.val) {
+                return isSame(root.left, subRoot.left) && isSame(root.right, subRoot.right);
+            }
+            return false;
+        }
+    }
 
-            if (eq(node, subRoot)) {
+    public static class Iterative {
+        /**
+         * Time complexity: O(N * M)
+         * Space complexity: O(N * M) (Queue for a node1 and call stack for a node2)
+         */
+        public boolean isSubtree(TreeNode root, TreeNode subRoot) {
+            Queue<TreeNode> queue = new LinkedList<>();
+            queue.add(root);
+
+            while (!queue.isEmpty()) {
+                TreeNode node = queue.poll();
+
+                if (eq(node, subRoot)) {
+                    return true;
+                }
+
+                if (node.left != null) {
+                    queue.add(node.left);
+                }
+
+                if (node.right != null) {
+                    queue.add(node.right);
+                }
+            }
+
+            return false;
+        }
+
+        private boolean eq(TreeNode node1, TreeNode node2) {
+            if (node1 == null && node2 == null) {
                 return true;
             }
 
-            if (node.left != null) {
-                queue.add(node.left);
+            if (node1 == null & node2 != null || node1 != null && node2 == null) {
+                return false;
             }
 
-            if (node.right != null) {
-                queue.add(node.right);
+            if (node1.val != node2.val) {
+                return false;
             }
+
+            return eq(node1.left, node2.left) && eq(node1.right, node2.right);
         }
-
-        return false;
-    }
-
-    private boolean eq(TreeNode node1, TreeNode node2) {
-        if (node1 == null && node2 == null) {
-            return true;
-        }
-
-        if (node1 == null & node2 != null || node1 != null && node2 == null) {
-            return false;
-        }
-
-        if (node1.val != node2.val) {
-            return false;
-        }
-
-        return eq(node1.left, node2.left) && eq(node1.right, node2.right);
     }
 }
