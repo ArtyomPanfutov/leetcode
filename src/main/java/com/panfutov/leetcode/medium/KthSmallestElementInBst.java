@@ -2,7 +2,9 @@ package com.panfutov.leetcode.medium;
 
 import com.panfutov.leetcode.datastructures.TreeNode;
 
+import java.util.ArrayDeque;
 import java.util.ArrayList;
+import java.util.Deque;
 import java.util.List;
 
 /**
@@ -34,25 +36,47 @@ import java.util.List;
  * Follow up: If the BST is modified often (i.e., we can do insert and delete operations) and you need to find the kth smallest frequently, how would you optimize?
  */
 public class KthSmallestElementInBst {
-    /**
-     * Time complexity: O(n)
-     * Space complexity: O(n)
-     */
-    public int kthSmallest(TreeNode root, int k) {
-        List<Integer> list = inorder(root, new ArrayList<>());
+    public static class RecursiveInorder {
+        /**
+         * Time complexity: O(n)
+         * Space complexity: O(n)
+         */
+        public int kthSmallest(TreeNode root, int k) {
+            List<Integer> list = inorder(root, new ArrayList<>());
 
-        return list.get(k - 1);
-    }
-
-    private List<Integer> inorder(TreeNode root, List<Integer> list) {
-        if (root == null) {
-            return list;
+            return list.get(k - 1);
         }
 
-        inorder(root.left, list);
-        list.add(root.val);
-        inorder(root.right, list);
+        private List<Integer> inorder(TreeNode root, List<Integer> list) {
+            if (root == null) {
+                return list;
+            }
 
-        return list;
+            inorder(root.left, list);
+            list.add(root.val);
+            inorder(root.right, list);
+
+            return list;
+        }
+    }
+
+    public static class IterativeInorder {
+        public int kthSmallest(TreeNode root, int k) {
+            Deque<TreeNode> stack = new ArrayDeque<>();
+            var node = root;
+            while (node != null || !stack.isEmpty()) {
+                while (node != null) {
+                    stack.push(node);
+                    node = node.left;
+                }
+                node = stack.pop();
+                k--;
+                if (k == 0) {
+                    return node.val;
+                }
+                node = node.right;
+            }
+            throw new RuntimeException("Not found");
+        }
     }
 }
