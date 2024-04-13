@@ -32,22 +32,43 @@ import com.panfutov.leetcode.datastructures.TreeNode;
  * -1000 <= Node.val <= 1000
  */
 public class BinaryTreeMaximumSumPath {
-    private int MAX = Integer.MIN_VALUE;
+    public static class NoGlobalVarSolution {
+        public int maxPathSum(TreeNode root) {
+            return dfs(root, new int[]{Integer.MIN_VALUE, 0})[0];
+        }
 
-    public int maxPathSum(TreeNode root) {
-        dfs(root);
-        return MAX;
+        private int[] dfs(TreeNode node, int[] cur) {
+            if (node == null) {
+                return new int[]{cur[0], 0};
+            }
+            int[] left = dfs(node.left, cur);
+            int[] right = dfs(node.right, cur);
+            int leftMax = Math.max(left[1], 0);
+            int rightMax = Math.max(right[1], 0);
+
+            int max = Math.max(right[0], Math.max(left[0], Math.max(node.val + leftMax + rightMax, cur[0])));
+            return new int[]{max, node.val + Math.max(leftMax, rightMax)};
+        }
     }
+    public static class GlobalVarSolution {
+        private int MAX = Integer.MIN_VALUE;
 
-    private int dfs(TreeNode root) {
-        if (root == null) return 0;
+        public int maxPathSum(TreeNode root) {
+            dfs(root);
+            return MAX;
+        }
 
-        int left = dfs(root.left);
-        int right = dfs(root.right);
+        private int dfs(TreeNode root) {
+            if (root == null) return 0;
 
-        int cur = Math.max(root.val, Math.max(left + root.val, right + root.val));
+            int left = dfs(root.left);
+            int right = dfs(root.right);
 
-        MAX = Math.max(left + right + root.val, Math.max(MAX, cur));
+            int cur = Math.max(root.val, Math.max(left + root.val, right + root.val));
 
-        return cur;
-    }  }
+            MAX = Math.max(left + right + root.val, Math.max(MAX, cur));
+
+            return cur;
+        }
+    }
+}
