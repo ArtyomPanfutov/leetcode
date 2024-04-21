@@ -48,35 +48,31 @@ import java.util.*;
 public class TaskScheduler {
     public static final class PriorityQueueSolution {
         public int leastInterval(char[] tasks, int n) {
-            Map<Character, Integer> map = new HashMap<>();
-
-            for (char task : tasks) {
-                map.put(task, map.getOrDefault(task, 0) + 1);
-            }
-
             Queue<Integer> heap = new PriorityQueue<>((a, b) -> b - a);
-            heap.addAll(map.values());
+            Queue<int[]> idle = new LinkedList<>();
 
-            int cycles = 0;
-            while (!heap.isEmpty()) {
-                List<Integer> arr = new ArrayList<>();
-
-                for (int i = 0; i < n + 1; i++) {
-                    if (!heap.isEmpty()) {
-                        arr.add(heap.poll());
-                    }
-                }
-
-                for (int item : arr) {
-                    if (--item > 0) {
-                        heap.add(item);
-                    }
-                }
-
-                cycles += heap.isEmpty() ? arr.size() : n + 1;
+            Map<Character, Integer> freq = new HashMap<>();
+            for (var task : tasks) {
+                freq.put(task, freq.getOrDefault(task, 0) + 1);
             }
 
-            return cycles;
+            heap.addAll(freq.values());
+
+            int time = 0;
+            while (!heap.isEmpty() || !idle.isEmpty()) {
+                if (!heap.isEmpty()) {
+                    int cur = heap.poll() - 1;
+                    if (cur > 0) {
+                        idle.add(new int[]{cur, time + n});
+                    }
+                }
+                if (!idle.isEmpty() && idle.peek()[1] == time) {
+                    heap.add(idle.poll()[0]);
+                }
+
+                time++;
+            }
+            return time;
         }
     }
 }
