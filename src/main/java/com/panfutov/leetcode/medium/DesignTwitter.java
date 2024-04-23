@@ -43,7 +43,7 @@ import java.util.*;
  */
 
 public class DesignTwitter {
-    class Twitter {
+    public static class Twitter {
         private final Map<Integer, Set<Integer>> followers = new HashMap<>();
         private final Map<Integer, List<int[]>> tweets = new HashMap<>();
         private int count = 0;
@@ -59,15 +59,29 @@ public class DesignTwitter {
         }
 
         public List<Integer> getNewsFeed(int userId) {
-            Queue<int[]> queue = new PriorityQueue<>((a, b) -> b[0] - a[0]);
-            Set<Integer> users = followers.getOrDefault(userId, Collections.emptySet());
+            Queue<Tweet> queue = new PriorityQueue<>((a, b) -> b.count - a.count);
+            Set<Integer> users = followers.getOrDefault(userId, new HashSet<>());
+            users.add(userId);
             for (var user : users) {
-                queue.addAll(tweets.getOrDefault(user, Collections.emptyList()));
+                var list = tweets.getOrDefault(user, Collections.emptyList());
+                var i = list.size() - 1;
+                if (i >= 0) {
+                    queue.add(new Tweet(list.get(i)[0], list.get(i)[1], user, i - 1));
+                }
             }
-            queue.addAll(tweets.getOrDefault(userId, Collections.emptyList()));
+
             List<Integer> result = new ArrayList<>();
-            for (int i = 0; i < 10 && !queue.isEmpty(); i++) {
-                result.add(queue.poll()[1]);
+            while (result.size() < 10 && !queue.isEmpty()) {
+                var tweet = queue.poll();
+                result.add(tweet.id);
+                if (tweet.index >= 0) {
+                    var list = tweets.getOrDefault(tweet.followeeId, Collections.emptyList());
+                    if (!list.isEmpty()) {
+                        var next = list.get(tweet.index);
+                        queue.add(new Tweet(next[0], next[1], tweet.followeeId, tweet.index - 1));
+                    }
+
+                }
             }
             return result;
         }
@@ -80,6 +94,20 @@ public class DesignTwitter {
 
         public void unfollow(int followerId, int followeeId) {
             followers.getOrDefault(followerId, Collections.emptySet()).remove(followeeId);
+        }
+
+        private static class Tweet {
+            private final int count;
+            private final int id;
+            private final int followeeId;
+            private final int index;
+
+            private Tweet(int count, int id, int followeeId, int index) {
+                this.count = count;
+                this.id = id;
+                this.followeeId = followeeId;
+                this.index = index;
+            }
         }
     }
 
