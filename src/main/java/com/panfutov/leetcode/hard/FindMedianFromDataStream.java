@@ -76,5 +76,6 @@ public class FindMedianFromDataStream {
         if (large.size() > small.size()) {
             return large.peek();
         }
-        return (double)(small.peek() + large.peek()) / 2;
+        return (double) (small.peek() + large.peek()) / 2;
     }
+}
