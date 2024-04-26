@@ -53,26 +53,28 @@ public class FindMedianFromDataStream {
      * Time complexity for add would be O(log(n)) and for findMedian O(1)
      * Space complexity O(N)
      */
-    Queue<Integer> small = new PriorityQueue<>(Collections.reverseOrder());
-    Queue<Integer> large = new PriorityQueue<>();
-    boolean even = true;
+    private final Queue<Integer> large = new PriorityQueue<>();
+    private final Queue<Integer> small = new PriorityQueue<>((a, b) -> b - a);
 
     public void addNum(int num) {
-        if (even) {
-            large.add(num);
-            small.add(large.poll());
-        } else {
-            small.add(num);
+        small.add(num);
+        if (!small.isEmpty() && !large.isEmpty() && small.peek() > large.peek()) {
             large.add(small.poll());
         }
-        even = !even;
+        if (small.size() > large.size() + 1) {
+            large.add(small.poll());
+        }
+        if (large.size() > small.size() + 1) {
+            small.add(large.poll());
+        }
     }
 
     public double findMedian() {
-        if (even) {
-            return (large.peek() + small.peek()) / 2.0;
-        } else {
+        if (small.size() > large.size()) {
             return small.peek();
         }
+        if (large.size() > small.size()) {
+            return large.peek();
+        }
+        return (double)(small.peek() + large.peek()) / 2;
     }
-}
