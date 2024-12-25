@@ -1,4 +1,4 @@
-package com.wolterskluwer.apollo.acs.core;
+package com.panfutov.leetcode.easy;
 
 /**
  * 1184. Distance Between Bus Stops

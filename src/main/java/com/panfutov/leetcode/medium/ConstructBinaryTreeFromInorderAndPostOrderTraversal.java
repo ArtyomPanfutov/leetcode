@@ -37,7 +37,7 @@ public class ConstructBinaryTreeFromInorderAndPostOrderTraversal {
      * Time complexity: O(n)
      * Space complexity: O(n)
      */
-    public class Solution {
+    public class MapSolution {
         public TreeNode buildTree(int[] inorder, int[] postorder) {
             final Map<Integer, Integer> map = new HashMap<>();
             for (int i = 0; i < inorder.length; i++) {
